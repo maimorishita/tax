@@ -1,6 +1,7 @@
 package jp.co.isken.tax.entity;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Vector;
 
 public class Party {
@@ -11,7 +12,7 @@ public class Party {
 	private String name;
 
 	public Party(String name) {
-		id = count++;
+		setId(count++);
 		this.name = name;
 	}
 
@@ -32,6 +33,14 @@ public class Party {
 
 	public String getName() {
 		return name;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }
