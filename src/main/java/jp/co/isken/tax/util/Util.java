@@ -6,16 +6,21 @@ import java.util.Date;
 
 public class Util {
 
-	public static Date stringToDate(String str)  {
-
+	public static Date stringToDate(String str) {
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = null;
 		try {
 			date = sdf1.parse(str);
 		} catch (ParseException e) {
-			//atode
+			// atode
 		}
 		return date;
+	}
+
+	public static String dateToString(Date date) {
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss");
+		String str = null;
+		return str = sdf1.format(date);
 	}
 	
 	public static String joinStrings(String... strs) {
@@ -26,5 +31,5 @@ public class Util {
 		}
 		return result;
 	}
-	
+
 }

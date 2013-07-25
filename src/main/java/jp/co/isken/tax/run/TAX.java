@@ -8,17 +8,17 @@ import java.util.Date;
 import java.util.Iterator;
 
 import jp.co.isken.tax.entity.Contract;
-import jp.co.isken.tax.entity.Party;
-import jp.co.isken.tax.entity.Product;
+import jp.co.isken.tax.entity.Transaction;
 import jp.co.isken.tax.service.ContractFacade;
-import jp.co.isken.tax.service.CustomerFacade;
+import jp.co.isken.tax.service.PartyFacade;
 import jp.co.isken.tax.service.ProductFacade;
 import jp.co.isken.tax.service.Receipt;
+import jp.co.isken.tax.service.TransactionFacade;
 
 public class TAX {
 
-	public static void main(String[] args) {
-		// init();
+	public static void main(String[] args) throws Exception {
+		init();
 		Date _date = setDate();
 		while (true) {
 			System.out.println("メニュー:(0.契約  1.販売　2.売上表示　3.日付の変更　q.メニュー終了) )");
@@ -43,6 +43,10 @@ public class TAX {
 		}
 	}
 
+	private static void init() {
+		Initializer.init();
+	}
+
 	public static void contract(Date _date) {
 		System.out.println("取引先名を入力してください");
 		String party = Input.$getLine();
@@ -56,35 +60,29 @@ public class TAX {
 		System.out.println(contract.toString());
 	}
 
-	public static void sell(Date _date) {
-		Receipt receipt = new Receipt(_date);
+	public static void sell(Date _date) throws Exception {
+		displayList(ContractFacade.iterator());
+		System.out.println("\n一覧かから選んでください(契約ID)");
+		int contractId = Input.$getNumber();
+		Receipt receipt = new Receipt(_date,contractId);
 		while (true) {
 			System.out.println("\n販売メニュー:(1.注文　2.会計) )");
 			char op = Input.$getOp();
-			if (op != '1')
+			if (op == '1') {
+				displayList(ProductFacade.iterator());
+				System.out.println("\nメニューの中から選んでください(商品ID)");
+				int id = Input.$getNumber();
+				System.out.println("\n個数を入力してください");
+				int quantity = Input.$getNumber();
+				receipt.addLineItem(id, quantity);
+			}
+			if (op == '2') {
+				receipt.save();
+				System.out.println("注文内容");
+				displayList(Transaction.getTransactions(contractId, _date));
 				break;
-			displayList(CustomerFacade.iterator());
-			System.out.println("\n一覧かから選んでください(取引先ID)");
-
-			displayList(ProductFacade.iterator());
-			System.out.println("\nメニューの中から選んでください(商品ID)");
-			int id = Input.$getNumber();
-
-			System.out.println("\n個数を入力してください");
-			int quantity = Input.$getNumber();
-
-			receipt.addLineItem(id, quantity);
+			}
 		}
-
-		// System.out.println("取引先名を入力してください");
-		// String party = Input.$getLine();
-		// receipt.setCustomer(Party.getParty(party));
-		// receipt.commit();
-
-		// System.out.println("下記の通りに記録しました。");
-		// ContractFacade.saveContract(_date, party, calType, baseDateType);
-		// Contract contract = ContractFacade.getContract(party, _date);
-		// System.out.println(contract.toString());
 	}
 
 	private static void displayList(Iterator iter) {
@@ -101,6 +99,8 @@ public class TAX {
 
 class Input {
 	private static DateFormat DATE_FORMAT = new SimpleDateFormat("yy/MM/dd");
+	public static BufferedReader br = new BufferedReader(new InputStreamReader(
+			System.in));
 
 	public static char $getOp() {
 		String buf = null;
@@ -133,8 +133,6 @@ class Input {
 	public static String $getLine() {
 		String line = null;
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					System.in));
 			line = br.readLine();
 		} catch (Exception ex) {
 			ex.printStackTrace();

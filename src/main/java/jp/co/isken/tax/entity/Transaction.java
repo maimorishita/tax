@@ -1,0 +1,120 @@
+package jp.co.isken.tax.entity;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
+import jp.co.isken.tax.util.Util;
+
+public class Transaction {
+
+	private boolean isSave = false;
+	private int id;
+	private Contract contract;
+	private Date whenOccered;
+	private Date whenNoticed;
+	private static Vector<Transaction> $transactionList = new Vector<Transaction>();
+	private static int count = 0;
+
+	public Transaction(Contract c, Date occerd, Date noticed) {
+		contract = c;
+		setWhenOccered(occerd);
+		setWhenNoticed(noticed);
+	}
+
+	public Transaction() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public static List<Transaction> getTByContract(Contract c) {
+		List<Transaction> tlist = new ArrayList<Transaction>();
+		for (Transaction t : $transactionList) {
+			if (t.getContract().equals(c)) {
+				tlist.add(t);
+			}
+		}
+		return tlist;
+	}
+
+	private Contract getContract() {
+		return contract;
+	}
+
+	// TODO　isSave未テスト
+	public void save() {
+		if (isSave == false) {
+			isSave = true;
+			$transactionList.add(this);
+			count++;
+		}
+	}
+
+	public List<Entry> getEntries() {
+		return Entry.getEByTransaction(this);
+	}
+
+	public Date getWhenOccered() {
+		return whenOccered;
+	}
+
+	public void setWhenOccered(Date whenOccered) {
+		this.whenOccered = whenOccered;
+	}
+
+	public Date getWhenNoticed() {
+		return whenNoticed;
+	}
+
+	public void setWhenNoticed(Date whenNoticed) {
+		this.whenNoticed = whenNoticed;
+	}
+
+	public static Transaction getTransaction(int id) {
+		for (Transaction t : $transactionList) {
+			if (t.getId() == id) {
+				return t;
+			}
+		}
+		// TODO nullを返さない
+		return null;
+	}
+
+	private int getId() {
+		return id;
+	}
+
+	public static Iterator getTransactions(int contractId, Date _date) {
+		Vector<Transaction> retval = new Vector<Transaction>();
+		Iterator<Transaction> iter = Transaction.iterator();
+		while (iter.hasNext()) {
+			Transaction target = iter.next();
+			if (target.getContract().getId() == contractId) {
+				retval.add(target);
+			}
+		}
+		return retval.iterator();
+	}
+
+	private static Iterator<Transaction> iterator() {
+		return $transactionList.iterator();
+	}
+
+	public String toString() {
+		String rs = "";
+		String occered = Util.dateToString(whenOccered);
+		String noticed = Util.dateToString(whenNoticed);
+
+		rs = id + " : " + occered + ", " + noticed + ", ";
+		for (Entry entry : getEntries()) {
+			rs += "[" + entry.getAccount().getName() + "," + entry.getAmmount()
+					+ "]";
+		}
+		return rs;
+	}
+
+	// public List<CFTransaction> getCashFlowT() {
+	// return CFTransaction.getCashFlowTByTransaction(this);
+	// }
+}
