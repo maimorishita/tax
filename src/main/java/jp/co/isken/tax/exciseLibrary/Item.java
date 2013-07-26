@@ -1,10 +1,10 @@
-package jp.co.isken.tax.entity;
+package jp.co.isken.tax.exciseLibrary;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Item {
 
+public class Item {
 
 	private boolean isSave = false;
 	private String name;
@@ -34,5 +34,10 @@ public class Item {
 			}
 		}
 		throw new Exception();
+	
 	}
+	
+	public List<TaxRate> getTaxRates() {
+	return TaxRate.getTaxRates(this);
+}
 }

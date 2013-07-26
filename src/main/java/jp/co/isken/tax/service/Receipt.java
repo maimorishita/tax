@@ -9,6 +9,7 @@ import jp.co.isken.tax.entity.Contract;
 import jp.co.isken.tax.entity.Entry;
 import jp.co.isken.tax.entity.Product;
 import jp.co.isken.tax.entity.Transaction;
+import jp.co.isken.tax.exciseLibrary.CalExciseService;
 
 public class Receipt {
 	
@@ -31,6 +32,17 @@ public class Receipt {
 			e.getAccount().save();
 			e.save();
 		}
+	}
+
+	public Transaction getTransaction() {
+		return t;
+	}
+
+	public void total() throws Exception {
+		CashFlow cf = new CashFlow(t);
+		t.setCFTransaction(cf.getCFTransaction());
+		t.update();
+		CalExciseService.createExciseTransaction(t);
 	}
 
 }

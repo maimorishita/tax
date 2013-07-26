@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 import jp.co.isken.tax.util.Util;
 
@@ -15,7 +14,8 @@ public class Transaction {
 	private Contract contract;
 	private Date whenOccered;
 	private Date whenNoticed;
-	private static Vector<Transaction> $transactionList = new Vector<Transaction>();
+	private CFTransaction cfTransaction;
+	private static List<Transaction> $transactionList = new ArrayList<Transaction>();
 	private static int count = 0;
 
 	public Transaction(Contract c, Date occerd, Date noticed) {
@@ -38,7 +38,7 @@ public class Transaction {
 		return tlist;
 	}
 
-	private Contract getContract() {
+	public Contract getContract() {
 		return contract;
 	}
 
@@ -85,12 +85,12 @@ public class Transaction {
 		return id;
 	}
 
-	public static Iterator getTransactions(int contractId, Date _date) {
-		Vector<Transaction> retval = new Vector<Transaction>();
+	public static Iterator getTransactions(Contract c, Date _date) {
+		List<Transaction> retval = new ArrayList<Transaction>();
 		Iterator<Transaction> iter = Transaction.iterator();
 		while (iter.hasNext()) {
 			Transaction target = iter.next();
-			if (target.getContract().getId() == contractId) {
+			if (target.getContract().equals(c)) {
 				retval.add(target);
 			}
 		}
@@ -116,7 +116,20 @@ public class Transaction {
 
 	public static void init() {
 		count =0;
-		$transactionList = new Vector<Transaction>();
+		$transactionList = new ArrayList<Transaction>();
+	}
+
+	public CFTransaction getCFTransaction() {
+		return cfTransaction;
+	}
+
+	public void setCFTransaction(CFTransaction cfTransaction) {
+		this.cfTransaction = cfTransaction;
+	}
+
+	public void update() {
+		$transactionList.remove(this);
+		$transactionList.add(this);
 	}
 
 	// public List<CFTransaction> getCashFlowT() {

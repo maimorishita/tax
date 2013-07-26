@@ -1,14 +1,14 @@
 package jp.co.isken.tax.util;
 
-import static org.junit.Assert.assertEquals;
-import junit.framework.JUnit4TestAdapter;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.io.*;
 
 
 public class STDIOTest {

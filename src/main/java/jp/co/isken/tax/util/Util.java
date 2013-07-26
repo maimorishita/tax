@@ -22,7 +22,7 @@ public class Util {
 		String str = null;
 		return str = sdf1.format(date);
 	}
-	
+
 	public static String joinStrings(String... strs) {
 		String newLine = System.getProperty("line.separator");
 		String result = "";
@@ -32,4 +32,7 @@ public class Util {
 		return result;
 	}
 
+	public static Date getDate() {
+		return Util.stringToDate("20130505000000");
+	}
 }

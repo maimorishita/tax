@@ -1,12 +1,13 @@
 package jp.co.isken.tax.entity;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
 public class Party {
 
 	private static int count = 0;
-	private static Vector<Party> $partyList = new Vector<Party>();
+	private static List<Party> $partyList = new ArrayList<Party>();
 	private int id;
 	private String name;
 

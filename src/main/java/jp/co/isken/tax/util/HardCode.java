@@ -1,0 +1,8 @@
+package jp.co.isken.tax.util;
+
+public class HardCode {
+	
+	public static final String DAIKIN = "è§ïië„ã‡";
+	public static final String EXCISE = "è¡îÔê≈";
+
+}

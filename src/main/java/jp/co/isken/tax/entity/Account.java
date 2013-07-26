@@ -2,18 +2,19 @@ package jp.co.isken.tax.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class Account {
 
 	private boolean isSave = false;
 	private String name;
-	private Item item;
-	private static Vector<Account> $accountList = new Vector<Account>();
+	private Product product;
+	private static List<Account> $accountList = new ArrayList<Account>();
+	private static int count = 0;
 
 	public Account(String name) throws Exception {
 		this.name = name;
-		this.item = Item.getItemByName(name);
+		this.product = Product.getProductByName(name);
+		count++;
 	}
 
 	public void save() {
@@ -27,11 +28,11 @@ public class Account {
 		return name;
 	}
 
-	public Item getItem() {
-		return item;
+	public Product getProduct() {
+		return product;
 	}
 
-	//TODO テスト
+	// TODO テスト
 	public static Account getAccount(String itemName) throws Exception {
 		for (Account a : $accountList) {
 			if (a.getName().equals(itemName)) {
@@ -43,6 +44,11 @@ public class Account {
 
 	public static Account getAccount(Product product) throws Exception {
 		return Account.getAccount(product.getName());
+	}
+
+	public static void init() {
+		$accountList = new ArrayList<Account>();
+		count = 0;
 	}
 
 }

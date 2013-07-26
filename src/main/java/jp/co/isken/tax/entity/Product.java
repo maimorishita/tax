@@ -1,8 +1,8 @@
 package jp.co.isken.tax.entity;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
 public class Product {
 
@@ -10,7 +10,7 @@ public class Product {
 	private String name;
 	private int price;
 	private Item item;
-	private static Vector<Product> $productList = new Vector<Product>();
+	private static List<Product> $productList = new ArrayList<Product>();
 	private static int $count = 0;
 
 	public Product(String name, int price) {
@@ -59,7 +59,20 @@ public class Product {
 
 	public static void init() {
 		$count = 0;
-		$productList = new  Vector<Product>();	
+		$productList = new ArrayList<Product>();	
+	}
+
+	public static Product getProductByName(String name) throws Exception {
+		for (Product i : $productList) {
+			if (i.getName().equals(name)) {
+				return i;
+			}
+		}
+		throw new Exception();
+	}
+
+	public Item getItem() {
+		return item;
 	}
 
 	

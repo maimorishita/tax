@@ -1,14 +1,15 @@
 package jp.co.isken.tax.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
 import jp.co.isken.tax.util.Util;
 
 public class Contract {
 
-	private static Vector<Contract> $contractList = new Vector<Contract>();
+	private static List<Contract> $contractList = new ArrayList<Contract>();
 	private static int count = 0;
 	private int id;
 	private Date contractDate;
@@ -80,7 +81,7 @@ public class Contract {
 	}
 
 	public static void init() {
-		$contractList = new Vector<Contract>();
+		$contractList = new ArrayList<Contract>();
 		count = 0;
 	}
 }

@@ -2,7 +2,6 @@ package jp.co.isken.tax.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class Entry {
 
@@ -10,7 +9,8 @@ public class Entry {
 	private Transaction transaction;
 	private Account account;
 	private long amount;
-	private static Vector<Entry> $entyList = new Vector<Entry>(); 
+	private static List<Entry> $entyList = new ArrayList<Entry>();
+	private static int count;
 
 	public Entry(Transaction t, Account a, long i) {
 		account = a;
@@ -57,5 +57,10 @@ public class Entry {
 
 	public void setAccount(Account a) {
 		account = a;
+	}
+
+	public static void init() {
+		$entyList = new ArrayList<Entry>();
+		count = 0;
 	}
 }

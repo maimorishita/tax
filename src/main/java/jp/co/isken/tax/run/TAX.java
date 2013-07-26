@@ -10,10 +10,8 @@ import java.util.Iterator;
 import jp.co.isken.tax.entity.Contract;
 import jp.co.isken.tax.entity.Transaction;
 import jp.co.isken.tax.service.ContractFacade;
-import jp.co.isken.tax.service.PartyFacade;
 import jp.co.isken.tax.service.ProductFacade;
 import jp.co.isken.tax.service.Receipt;
-import jp.co.isken.tax.service.TransactionFacade;
 
 public class TAX {
 
@@ -61,30 +59,64 @@ public class TAX {
 	}
 
 	public static void sell(Date _date) throws Exception {
-		displayList(ContractFacade.iterator());
-		System.out.println("\n一覧かから選んでください(契約ID)");
-		int contractId = Input.$getNumber();
-		Receipt receipt = new Receipt(_date,contractId);
+		Receipt receipt = selectContract(_date);
 		while (true) {
 			System.out.println("\n販売メニュー:(1.注文　2.会計) )");
 			char op = Input.$getOp();
 			if (op == '1') {
-				displayList(ProductFacade.iterator());
-				System.out.println("\nメニューの中から選んでください(商品ID)");
-				int id = Input.$getNumber();
-				System.out.println("\n個数を入力してください");
-				int quantity = Input.$getNumber();
-				receipt.addLineItem(id, quantity);
-			}
-			if (op == '2') {
-				receipt.save();
-				System.out.println("注文内容");
-				displayList(Transaction.getTransactions(contractId, _date));
+				order(receipt);
+			} else if (op == '2') {
+				saveReceipt(receipt);
+				total(receipt);
+				showTotal(_date, receipt);
+				break;
+			} else {
 				break;
 			}
 		}
 	}
+	
+	public static void order(Receipt receipt) throws Exception {
+		displayList(ProductFacade.iterator());
+		System.out.println("\nメニューの中から選んでください(商品ID)");
+		int id = Input.$getNumber();
+		System.out.println("\n個数を入力してください");
+		int quantity = Input.$getNumber();
+		receipt.addLineItem(id, quantity);
+	}
 
+	public static void saveReceipt(Receipt receipt) {
+		receipt.save();
+	}
+
+	public static void total(Receipt receipt) throws Exception {
+		receipt.total();
+	}
+
+	
+
+	public static Receipt selectContract(Date _date) {
+		displayList(ContractFacade.iterator());
+		System.out.println("\n一覧かから選んでください(契約ID)");
+		int contractId = Input.$getNumber();
+		Receipt receipt = new Receipt(_date, contractId);
+		return receipt;
+	}
+
+	public static void showTotal(Date _date, Receipt receipt) {
+		System.out.println("注文内容");
+		Contract c = receipt.getTransaction().getContract();
+		Iterator targets = Transaction.getTransactions(c, _date);
+		displayList(targets);
+		System.out.println("代金");
+		targets = Transaction.getTransactions(c, _date);
+		while (targets.hasNext()) {
+			Transaction t = (Transaction) targets.next();
+			System.out.println(t.getCFTransaction().toString());
+		}
+	}
+
+	
 	private static void displayList(Iterator iter) {
 		while (iter.hasNext()) {
 			System.out.println(iter.next().toString());

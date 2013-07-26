@@ -1,15 +1,15 @@
 package jp.co.isken.tax.service;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
 import jp.co.isken.tax.entity.Party;
-import jp.co.isken.tax.entity.Product;
 
 public class PartyFacade {
 
 	public static Iterator iterator() {
-		  Vector<Party> retval = new Vector<Party>();
+		  List<Party> retval = new ArrayList<Party>();
 		    Iterator<Party> iter = Party.iterator();
 		    while(iter.hasNext()){
 		      retval.add(iter.next());
