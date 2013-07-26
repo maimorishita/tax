@@ -24,10 +24,6 @@ public class Transaction {
 		setWhenNoticed(noticed);
 	}
 
-	public Transaction() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public static List<Transaction> getTByContract(Contract c) {
 		List<Transaction> tlist = new ArrayList<Transaction>();
 		for (Transaction t : $transactionList) {
@@ -85,7 +81,7 @@ public class Transaction {
 		return id;
 	}
 
-	public static Iterator getTransactions(Contract c, Date _date) {
+	public static Iterator<Transaction> getTransactions(Contract c, Date _date) {
 		List<Transaction> retval = new ArrayList<Transaction>();
 		Iterator<Transaction> iter = Transaction.iterator();
 		while (iter.hasNext()) {

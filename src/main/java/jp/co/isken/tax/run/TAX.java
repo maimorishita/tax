@@ -96,7 +96,7 @@ public class TAX {
 	
 
 	public static Receipt selectContract(Date _date) {
-		displayList(ContractFacade.iterator());
+		displayList(Contract.iterator());
 		System.out.println("\nàÍóóÇ©Ç©ÇÁëIÇÒÇ≈Ç≠ÇæÇ≥Ç¢(å_ñÒID)");
 		int contractId = Input.$getNumber();
 		Receipt receipt = new Receipt(_date, contractId);
@@ -106,18 +106,18 @@ public class TAX {
 	public static void showTotal(Date _date, Receipt receipt) {
 		System.out.println("íçï∂ì‡óe");
 		Contract c = receipt.getTransaction().getContract();
-		Iterator targets = Transaction.getTransactions(c, _date);
+		Iterator<Transaction> targets = Transaction.getTransactions(c, _date);
 		displayList(targets);
 		System.out.println("ë„ã‡");
 		targets = Transaction.getTransactions(c, _date);
 		while (targets.hasNext()) {
-			Transaction t = (Transaction) targets.next();
+			Transaction t = targets.next();
 			System.out.println(t.getCFTransaction().toString());
 		}
 	}
 
 	
-	private static void displayList(Iterator iter) {
+	private static <T> void displayList(Iterator<T> iter) {
 		while (iter.hasNext()) {
 			System.out.println(iter.next().toString());
 		}

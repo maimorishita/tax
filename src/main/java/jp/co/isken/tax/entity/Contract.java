@@ -62,7 +62,7 @@ public class Contract {
 		this.contractDate = contractDate;
 	}
 
-	public static Iterator iterator() {
+	public static Iterator<Contract> iterator() {
 		return $contractList.iterator();
 	}
 
