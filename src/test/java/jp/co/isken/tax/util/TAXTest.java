@@ -1,4 +1,4 @@
-package jp.co.isken.tax.run;
+package jp.co.isken.tax.util;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -6,16 +6,25 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.io.ByteArrayInputStream;
 import java.util.Date;
 
-import jp.co.isken.tax.util.StanderdIOTest;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import jp.co.isken.tax.run.Initializer;
+import jp.co.isken.tax.run.TAX;
 import jp.co.isken.tax.util.Util;
 
-import org.junit.Test;
-
-public class TAXTest extends StanderdIOTest {
+public class TAXTest extends STDIOTest {
+	
+	@Before
+	public void before(){
+		Initializer.test();
+	}
 
 	@Test
 	public void test() throws Exception {
-		Initializer.test();
+		
 		String inputString = joinStrings("0", "1", "0", "1", "2");
 		System.setIn(new ByteArrayInputStream(inputString.getBytes()));
 		Date _date = Util.stringToDate("20130105000000");

@@ -3,11 +3,15 @@ package jp.co.isken.tax.util;
 import static org.junit.Assert.assertEquals;
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.*;
 
-public class StanderdIOTest {
+
+public class STDIOTest {
 	protected ByteArrayOutputStream _baos;
 	protected PrintStream _out;
 	protected ByteArrayInputStream _bais;
@@ -24,23 +28,25 @@ public class StanderdIOTest {
 	}
 
 	@After
-	public void tearDown() {
+	public void tearDown() throws IOException {
 		System.setOut(_out);
 		System.setIn(_in);
+		_bais.close();
+		_baos.close();
 	}
 
-	@Test
-	public void testHello() {
-		String inputString = joinStrings("‚±‚ñ‚É‚¿‚Í", "‚³‚æ‚¤‚È‚ç");
-		System.setIn(new ByteArrayInputStream(inputString.getBytes()));
-		StdIOSample.main(new String[0]);
-		System.out.flush();
-		String expected = joinStrings("Hello!", "http://www.hyuki.com/",
-				"INPUT: ", "OUTPUT: ‚±‚ñ‚É‚¿‚Í", "INPUT: ", "OUTPUT: ‚³‚æ‚¤‚È‚ç",
-				"PROGRAM END");
-		String actual = _baos.toString();
-		assertEquals(expected, actual);
-	}
+//	@Test
+//	public void testHello() {
+//		String inputString = joinStrings("‚±‚ñ‚É‚¿‚Í", "‚³‚æ‚¤‚È‚ç");
+//		System.setIn(new ByteArrayInputStream(inputString.getBytes()));
+//		StdIOSample.main(new String[0]);
+//		System.out.flush();
+//		String expected = joinStrings("Hello!", "http://www.hyuki.com/",
+//				"INPUT: ", "OUTPUT: ‚±‚ñ‚É‚¿‚Í", "INPUT: ", "OUTPUT: ‚³‚æ‚¤‚È‚ç",
+//				"PROGRAM END");
+//		String actual = _baos.toString();
+//		assertEquals(expected, actual);
+//	}
 
 	protected String joinStrings(String... strs) {
 		String newLine = System.getProperty("line.separator");
@@ -51,7 +57,7 @@ public class StanderdIOTest {
 		return result;
 	}
 
-	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter(StanderdIOTest.class);
-	}
+//	public static junit.framework.Test suite() {
+//		return new JUnit4TestAdapter(STDIOTest.class);
+//	}
 }

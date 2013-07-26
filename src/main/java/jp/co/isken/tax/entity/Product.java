@@ -57,5 +57,10 @@ public class Product {
 		return id + " : " + name + "(" + price + ")";
 	}
 
+	public static void init() {
+		$count = 0;
+		$productList = new  Vector<Product>();	
+	}
+
 	
 }

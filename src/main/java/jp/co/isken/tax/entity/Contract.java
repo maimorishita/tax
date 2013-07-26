@@ -78,4 +78,9 @@ public class Contract {
 		// TODO 事前チェックかExceptionに変更する
 		return null;
 	}
+
+	public static void init() {
+		$contractList = new Vector<Contract>();
+		count = 0;
+	}
 }

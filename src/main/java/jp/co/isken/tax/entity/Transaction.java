@@ -114,6 +114,11 @@ public class Transaction {
 		return rs;
 	}
 
+	public static void init() {
+		count =0;
+		$transactionList = new Vector<Transaction>();
+	}
+
 	// public List<CFTransaction> getCashFlowT() {
 	// return CFTransaction.getCashFlowTByTransaction(this);
 	// }
