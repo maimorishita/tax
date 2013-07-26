@@ -16,15 +16,10 @@ public class CFTransaction {
 	private static int count;
 
 	public CFTransaction(Transaction transaction) {
-		id = count;
-		count++;
+		id = count++;
 		setWhenOccered(transaction.getWhenOccered());
 		setWhenNoticed(transaction.getWhenNoticed());
 		this.transaction = transaction;
-	}
-
-	public void create(Transaction transaction) {
-
 	}
 
 	public Transaction getTransaction() {

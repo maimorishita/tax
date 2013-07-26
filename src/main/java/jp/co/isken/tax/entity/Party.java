@@ -12,7 +12,7 @@ public class Party {
 	private String name;
 
 	public Party(String name) {
-		setId(count++);
+		id = count++;
 		this.name = name;
 		Party.$partyList.add(this);
 	}
@@ -33,10 +33,6 @@ public class Party {
 
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public static Iterator<Party> iterator() {

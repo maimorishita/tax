@@ -35,7 +35,6 @@ public class CashFlow {
 		for (Account account : map.keySet()) {
 			CFEntry cfEntry = new CFEntry(cfTransaction, cfAccount,
 					map.get(account));
-			cfEntry.save();
 		}
 	}
 

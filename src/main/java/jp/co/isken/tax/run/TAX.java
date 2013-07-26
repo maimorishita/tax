@@ -45,7 +45,7 @@ public class TAX {
 		Initializer.init();
 	}
 
-	public static void contract(Date _date) {
+	public static void contract(Date _date) throws Exception {
 		System.out.println("æˆøæ–¼‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");
 		String party = Input.$getLine();
 		System.out.println("ŠÛ‚ß•û–@‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");

@@ -29,7 +29,6 @@ public class Receipt {
 	public void save(){
 		t.save();
 		for(Entry e: entryList){
-			e.getAccount().save();
 			e.save();
 		}
 	}

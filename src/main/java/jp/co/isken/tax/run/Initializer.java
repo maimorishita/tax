@@ -89,12 +89,13 @@ public class Initializer {
 	public static void datainit() {
 		Contract.init();
 		Product.init();
-		Transaction.init();
 		CFTransaction.init();
-		Entry.init();
 		CFEntry.init();
-		Account.init();
 		CFAccount.init();
+		Transaction.init();
+		Entry.init();		
+		Account.init();
+		Item.init();
 	}
 
 }

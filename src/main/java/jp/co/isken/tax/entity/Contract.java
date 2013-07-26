@@ -28,15 +28,14 @@ public class Contract {
 		Contract.$contractList.add(this);
 	}
 
-	public static Contract getContracat(String name, Date date) {
+	public static Contract getContracat(String name, Date date) throws Exception {
 		for (Contract c : Contract.$contractList) {
 			if (c.getCustomer().getName().equals(name)
 					&& c.getContractDate().equals(date)) {
 				return c;
 			}
 		}
-		// TODO 事前チェックかExceptionに変更する
-		return null;
+		throw new Exception();
 	}
 
 	public String toString() {

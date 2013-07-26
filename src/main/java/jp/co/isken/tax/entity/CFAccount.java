@@ -1,6 +1,7 @@
 package jp.co.isken.tax.entity;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class CFAccount {
@@ -11,14 +12,14 @@ public class CFAccount {
 	private static List<CFAccount> $cfaccountList = new ArrayList<CFAccount>();
 	private static int count;
 
-	public CFAccount(Account account) {
+	private CFAccount(Account account) {
 		new CFAccount(account.getName());
 	}
 
-	public CFAccount(String name) {
+	private CFAccount(String name) {
 		this.name = name;
-		id = count;
-		count++;
+		id = count++;
+		save();
 	}
 
 	public void save() {
@@ -45,5 +46,9 @@ public class CFAccount {
 	public static void init() {
 		$cfaccountList = new ArrayList<CFAccount>();
 		count = 0;
+	}
+
+	public static Iterator<CFAccount> iterator() {
+		return $cfaccountList.iterator();
 	}
 }

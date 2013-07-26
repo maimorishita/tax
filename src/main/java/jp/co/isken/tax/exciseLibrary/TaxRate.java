@@ -20,9 +20,8 @@ public class TaxRate {
 		rate = r;
 		item = i;
 		term = t;
-		id = count;
+		id = count++;
 		save();
-		count++;
 	}
 	
 	public void save() {
@@ -57,5 +56,4 @@ public class TaxRate {
 	public Term getTerm() {
 		return term;
 	}
-
 }

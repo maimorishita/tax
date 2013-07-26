@@ -19,6 +19,7 @@ public class Transaction {
 	private static int count = 0;
 
 	public Transaction(Contract c, Date occerd, Date noticed) {
+		id = count++;
 		contract = c;
 		setWhenOccered(occerd);
 		setWhenNoticed(noticed);

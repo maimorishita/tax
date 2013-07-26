@@ -13,7 +13,7 @@ public class ContractFacade {
 
 	}
 
-	public static Contract getContract(String partyName, Date date) {
+	public static Contract getContract(String partyName, Date date) throws Exception {
 		return Contract.getContracat(partyName, date);
 	}
 }

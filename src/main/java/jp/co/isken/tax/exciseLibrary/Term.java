@@ -15,14 +15,11 @@ public class Term {
 	public Term(Date from, Date to) {
 		this.setFrom(from);
 		this.setTo(to);
+		id = count++;
 	}
 
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public Date getFrom() {

@@ -19,7 +19,7 @@ public class ContractTest {
 	}
 
 	@Test
-	public void Œ_–ñ‚ğ‹L˜^‚·‚é() {
+	public void Œ_–ñ‚ğ‹L˜^‚·‚é() throws Exception {
 		Date date = Util.stringToDate("20120103000000");
 		new Contract(date, Party.getParty("SATO"), "ØÌ‚Ä", "Œvã“ú");
 		Contract target = Contract.getContracat("SATO", date);

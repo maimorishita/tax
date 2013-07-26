@@ -12,31 +12,33 @@ import jp.co.isken.tax.util.HardCode;
 
 public class CalExciseService {
 
-	public static CFTransaction createExciseTransaction(Transaction transaction) throws Exception {
+	public static CFTransaction createExciseTransaction(Transaction transaction)
+			throws Exception {
 		CFTransaction cft = transaction.getCFTransaction();
 		BigDecimal sum = new BigDecimal("0.00");
-		for(CFEntry entry : cft.getEntries()){
+		for (CFEntry entry : cft.getEntries()) {
 			sum = sum.add(getExciese(entry));
 		}
-		CFEntry entry = new CFEntry(cft, CFAccount.getAccount(HardCode.EXCISE), sum);
-		entry.save();
+		CFEntry entry = new CFEntry(cft, CFAccount.getAccount(HardCode.EXCISE),
+				sum);
 		return cft;
 	}
 
 	private static BigDecimal getExciese(CFEntry entry) throws Exception {
-		//TODO 消費税は品目ごとに出すの？　総額で出すのか？ 品目ごとに出すならば金流取引は商品ごとに作る？アカウントも商品ごとにできる？
+		// TODO 消費税は品目ごとに出すの？　総額で出すのか？ 品目ごとに出すならば金流取引は商品ごとに作る？アカウントも商品ごとにできる？
 		return entry.getAmmount().multiply(new BigDecimal("0.05"));
 	}
 
-	private static TaxRate getTaxRate(Item item, Date date) {
+	private static TaxRate getTaxRate(Item item, Date date) throws Exception {
 		List<TaxRate> rates = TaxRate.getTaxRates();
-		for(TaxRate rate : rates){
-			if(rate.getItem().equals(item) && rate.getTerm().getFrom().before(date)  &&  rate.getTerm().getTo().after(date)){
-				return rate;
+		for (TaxRate rate : rates) {
+			if (rate.getItem().equals(item)) {
+				if (rate.getTerm().getFrom().before(date)
+						&& rate.getTerm().getTo().after(date)) {
+					return rate;
+				}
 			}
 		}
-		//TODO nullを返さない
-		return null;
+		throw new Exception();
 	}
-
 }

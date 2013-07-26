@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Entry {
 
+	private int id ;
 	private boolean isSave = false;
 	private Transaction transaction;
 	private Account account;
@@ -16,6 +17,7 @@ public class Entry {
 		account = a;
 		amount = i;
 		transaction = t;
+		id = count++;
 	}
 
 	public void save() {

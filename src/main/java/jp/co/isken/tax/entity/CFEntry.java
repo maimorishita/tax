@@ -6,6 +6,7 @@ import java.util.List;
 
 public class CFEntry {
 
+	private int id ;
 	private boolean isSave = false;
 	private CFTransaction transaction;
 	private CFAccount account;
@@ -13,14 +14,16 @@ public class CFEntry {
 	private static List<CFEntry> $entryList = new ArrayList<CFEntry>();
 	private static int count;
 
-	public BigDecimal getAmmount() {
-		return ammount;
-	}
-
 	public CFEntry(CFTransaction t, CFAccount a, BigDecimal d) {
 		transaction = t;
 		account = a;
 		ammount = d;
+		id = count++;
+		save();
+	}
+
+	public BigDecimal getAmmount() {
+		return ammount;
 	}
 
 	public void setAmmount(BigDecimal a) {
@@ -43,7 +46,7 @@ public class CFEntry {
 		this.account = account;
 	}
 
-	public void save() {
+	private void save() {
 		if (isSave == false) {
 			isSave = true;
 			$entryList.add(this);

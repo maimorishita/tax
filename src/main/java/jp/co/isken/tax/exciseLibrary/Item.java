@@ -3,15 +3,17 @@ package jp.co.isken.tax.exciseLibrary;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Item {
 
+	private int id;
 	private boolean isSave = false;
 	private String name;
 	private static List<Item> $itemList = new ArrayList<Item>();
+	private static int count = 0;
 
 	public Item(String name) {
 		this.name = name;
+		this.id = count++;
 		save();
 	}
 
@@ -26,7 +28,6 @@ public class Item {
 		return name;
 	}
 
-	
 	public static Item getItemByName(String name) throws Exception {
 		for (Item i : $itemList) {
 			if (i.getName().equals(name)) {
@@ -34,10 +35,15 @@ public class Item {
 			}
 		}
 		throw new Exception();
-	
+
 	}
-	
+
 	public List<TaxRate> getTaxRates() {
-	return TaxRate.getTaxRates(this);
-}
+		return TaxRate.getTaxRates(this);
+	}
+
+	public static void init() {
+		$itemList = new ArrayList<Item>();
+		count = 0;
+	}
 }

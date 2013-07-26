@@ -11,10 +11,10 @@ public class Product {
 	private int price;
 	private Item item;
 	private static List<Product> $productList = new ArrayList<Product>();
-	private static int $count = 0;
+	private static int count = 0;
 
 	public Product(String name, int price) {
-		this.id = $count++;
+		this.id = count++;
 		this.name = name;
 		this.price = price;
 		//TOODÅ@ëΩèdìxíºÇ∑ item:product=1:1;
@@ -33,10 +33,6 @@ public class Product {
 	public int getPrice() {
 		return this.price;
 	}
-
-	// public int getTotalQuantity(Date date){
-	// return LineItem.$getTotalQuantity(this, date);
-	// }
 
 	public static Iterator<Product> iterator() {
 		return $productList.iterator();
@@ -58,7 +54,7 @@ public class Product {
 	}
 
 	public static void init() {
-		$count = 0;
+		count = 0;
 		$productList = new ArrayList<Product>();	
 	}
 
