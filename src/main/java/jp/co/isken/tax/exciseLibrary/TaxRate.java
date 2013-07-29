@@ -2,13 +2,14 @@ package jp.co.isken.tax.exciseLibrary;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TaxRate {
 
 	private static List<TaxRate> $rateList = new ArrayList<TaxRate>();
 	private static int count;
-	private int id ;
+	private int id;
 	private boolean isSave = false;
 	private BigDecimal rate = new BigDecimal("0.00");
 	private Tax tax;
@@ -23,7 +24,7 @@ public class TaxRate {
 		id = count++;
 		save();
 	}
-	
+
 	public void save() {
 		if (isSave == false) {
 			isSave = true;
@@ -56,4 +57,17 @@ public class TaxRate {
 	public Term getTerm() {
 		return term;
 	}
+
+	public static TaxRate getTaxRates(Item item, Date date) throws Exception {
+		for (TaxRate t : $rateList) {
+			if (t.getItem().equals(item)) {
+				if(t.getTerm().isEffectiveDate(date)){
+					return t;	
+				}
+			}
+		}
+		throw new Exception();
+	}
+
+	
 }

@@ -1,5 +1,6 @@
 package jp.co.isken.tax.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,27 +8,28 @@ import java.util.List;
 import jp.co.isken.tax.util.Util;
 
 public class CFTransaction {
-	private int id ;
+	private int id;
 	private boolean isSave = false;
 	private Date whenOccered;
 	private Date whenNoticed;
-	private Transaction transaction;
+	private Entry entry;
+
+	public Entry getEntry() {
+		return entry;
+	}
+
+	public void setEntry(Entry entry) {
+		this.entry = entry;
+	}
+
 	private static List<CFTransaction> $TransactionList = new ArrayList<CFTransaction>();
 	private static int count;
 
-	public CFTransaction(Transaction transaction) {
+	public CFTransaction(Entry entry) {
 		id = count++;
-		setWhenOccered(transaction.getWhenOccered());
-		setWhenNoticed(transaction.getWhenNoticed());
-		this.transaction = transaction;
-	}
-
-	public Transaction getTransaction() {
-		return transaction;
-	}
-
-	public void setTransaction(Transaction transaction) {
-		this.transaction = transaction;
+		setWhenOccered(entry.getTransaction().getWhenOccered());
+		setWhenNoticed(entry.getTransaction().getWhenNoticed());
+		this.entry = entry;
 	}
 
 	public void save() {
@@ -53,11 +55,11 @@ public class CFTransaction {
 		this.whenNoticed = whenNoticed;
 	}
 
-	public static List<CFTransaction> getCashFlowTByTransaction(
+	public static List<CFTransaction> getCFTransactionByTransaction(
 			Transaction transaction) {
 		List<CFTransaction> target = new ArrayList<CFTransaction>();
 		for (CFTransaction t : $TransactionList) {
-			if (t.getTransaction().equals(transaction)) {
+			if (t.getEntry().getTransaction().equals(transaction)) {
 				target.add(t);
 			}
 		}
@@ -74,9 +76,11 @@ public class CFTransaction {
 		String noticed = Util.dateToString(whenNoticed);
 
 		rs = id + " : " + occered + ", " + noticed + ", ";
+		rs += "[" + entry.getAccount().getName() + "," + entry.getAmmount() + "]";
 		for (CFEntry entry : getEntries()) {
-			rs += "[" + entry.getAccount().getName() + "," + entry.getAmmount()
-					+ "]";
+			BigDecimal amount = new BigDecimal("0.00");
+			amount = amount.add(entry.getAmmount()).setScale(2);
+			rs += "[" + entry.getAccount().getName() + "," + amount + "]";
 		}
 		return rs;
 	}
@@ -84,5 +88,9 @@ public class CFTransaction {
 	public static void init() {
 		$TransactionList = new ArrayList<CFTransaction>();
 		count = 0;
+	}
+
+	public Party getCustomer() {
+		return this.getEntry().getTransaction().getContract().getCustomer();
 	}
 }

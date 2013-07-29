@@ -12,33 +12,20 @@ import jp.co.isken.tax.util.HardCode;
 
 public class CalExciseService {
 
-	public static CFTransaction createExciseTransaction(Transaction transaction)
-			throws Exception {
-		CFTransaction cft = transaction.getCFTransaction();
-		BigDecimal sum = new BigDecimal("0.00");
-		for (CFEntry entry : cft.getEntries()) {
-			sum = sum.add(getExciese(entry));
-		}
-		CFEntry entry = new CFEntry(cft, CFAccount.getAccount(HardCode.EXCISE),
-				sum);
-		return cft;
-	}
+//	public static CFTransaction createExciseTransaction(Transaction transaction)
+//			throws Exception {
+//		CFTransaction cft = transaction.getCFTransaction();
+//		BigDecimal sum = new BigDecimal("0.00");
+//		for (CFEntry entry : cft.getEntries()) {
+//			new CFEntry(cft, CFAccount.getAccount(HardCode.EXCISE),
+//					getExciese(entry));
+//		}
+//		return cft;
+//	}
 
 	private static BigDecimal getExciese(CFEntry entry) throws Exception {
-		// TODO 消費税は品目ごとに出すの？　総額で出すのか？ 品目ごとに出すならば金流取引は商品ごとに作る？アカウントも商品ごとにできる？
-		return entry.getAmmount().multiply(new BigDecimal("0.05"));
-	}
-
-	private static TaxRate getTaxRate(Item item, Date date) throws Exception {
-		List<TaxRate> rates = TaxRate.getTaxRates();
-		for (TaxRate rate : rates) {
-			if (rate.getItem().equals(item)) {
-				if (rate.getTerm().getFrom().before(date)
-						&& rate.getTerm().getTo().after(date)) {
-					return rate;
-				}
-			}
-		}
-		throw new Exception();
+		Item i = Item.getItemByName(entry.getAccount().getName());
+		BigDecimal rate = i.getTaxRate(entry.getTransaction().getWhenOccered()).getRate();
+		return entry.getAmmount().multiply(rate);
 	}
 }

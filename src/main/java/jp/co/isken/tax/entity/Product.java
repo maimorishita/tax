@@ -1,5 +1,6 @@
 package jp.co.isken.tax.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -8,12 +9,12 @@ public class Product {
 
 	private int id;
 	private String name;
-	private int price;
+	private BigDecimal price= new BigDecimal("0.00");
 	private Item item;
 	private static List<Product> $productList = new ArrayList<Product>();
 	private static int count = 0;
 
-	public Product(String name, int price) {
+	public Product(String name, BigDecimal price) {
 		this.id = count++;
 		this.name = name;
 		this.price = price;
@@ -30,7 +31,7 @@ public class Product {
 		return this.name;
 	}
 
-	public int getPrice() {
+	public BigDecimal getPrice() {
 		return this.price;
 	}
 

@@ -1,5 +1,6 @@
 package jp.co.isken.tax.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +10,13 @@ public class Entry {
 	private boolean isSave = false;
 	private Transaction transaction;
 	private Account account;
-	private long amount;
+	private BigDecimal amount = new BigDecimal("0.00");
 	private static List<Entry> $entyList = new ArrayList<Entry>();
 	private static int count;
 
-	public Entry(Transaction t, Account a, long i) {
+	public Entry(Transaction t, Account a, BigDecimal b) {
 		account = a;
-		amount = i;
+		amount = b;
 		transaction = t;
 		id = count++;
 	}
@@ -37,7 +38,7 @@ public class Entry {
 		return elist;
 	}
 
-	private Transaction getTransaction() {
+	public Transaction getTransaction() {
 		return transaction;
 	}
 
@@ -45,11 +46,11 @@ public class Entry {
 		return account;
 	}
 
-	public long getAmmount() {
+	public BigDecimal getAmmount() {
 		return amount;
 	}
 
-	public void setAmmount(int a) {
+	public void setAmmount(BigDecimal a) {
 		amount = a;
 	}
 

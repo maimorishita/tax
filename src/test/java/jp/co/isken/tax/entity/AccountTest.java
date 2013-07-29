@@ -19,21 +19,26 @@ public class AccountTest {
 	}
 
 	@Test
-	public void アカウントの作成ができる() {
+	public void アカウントの作成ができる() throws Exception {
 		try {
-			Account target = Account.getAccount("ナックバーガー");
+			Account target = Account.getAccount("ナックバーガー",
+					Party.getParty("SATO"));
 		} catch (Exception e) {
 			fail("");
 		}
 		Iterator<Account> iter = Account.iterator();
 		iter.hasNext();
-		assertThat(iter.next().getName(), is("ナックバーガー"));
+		Account account = iter.next();
+		assertThat(account.getName(), is("ナックバーガー"));
+		assertThat(account.getProduct(),
+				is(Product.getProductByName("ナックバーガー")));
+		assertThat(account.getParty(), is(Party.getParty("SATO")));
 		assertThat(iter.hasNext(), is(false));
 	}
 
 	@Test(expected = Exception.class)
 	public void 品目が登録されていない場合は商流勘定は作成できない() throws Exception {
-		Account target =Account.getAccount("ほげほげ");
+		Account target = Account.getAccount("ほげほげ", Party.getParty("SATO"));
 	}
 
 }

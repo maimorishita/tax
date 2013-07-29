@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
+import jp.co.isken.tax.entity.CFTransaction;
 import jp.co.isken.tax.entity.Contract;
 import jp.co.isken.tax.entity.Transaction;
 import jp.co.isken.tax.service.ContractFacade;
@@ -112,7 +113,9 @@ public class TAX {
 		targets = Transaction.getTransactions(c, _date);
 		while (targets.hasNext()) {
 			Transaction t = targets.next();
-			System.out.println(t.getCFTransaction().toString());
+			for(CFTransaction cft : t.getCFTransactions()){
+				System.out.println(cft.toString());
+			}
 		}
 	}
 

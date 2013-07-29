@@ -42,12 +42,12 @@ public class Initializer {
 		TaxRate rate5 = new TaxRate(tax, bd, ei5, term);
 		TaxRate rate6 = new TaxRate(tax, bd, ei6, term);
 
-		Product nacburger = new Product("ナックバーガー", 90);
-		Product naccheeseburger = new Product("ナックチーズバーガー", 120);
-		Product nacpotato_s = new Product("ナックポテトS", 150);
-		Product nacpotato_m = new Product("ナックポテトM", 220);
-		Product naccola = new Product("ナックコーラ", 150);
-		Product nacshake = new Product("ナックシェーク", 200);
+		Product nacburger = new Product("ナックバーガー", new BigDecimal("90.00"));
+		Product naccheeseburger = new Product("ナックチーズバーガー", new BigDecimal("120.00"));
+		Product nacpotato_s = new Product("ナックポテトS", new BigDecimal("150.00"));
+		Product nacpotato_m = new Product("ナックポテトM", new BigDecimal("220.00"));
+		Product naccola = new Product("ナックコーラ", new BigDecimal("150.00"));
+		Product nacshake = new Product("ナックシェーク", new BigDecimal("200.00"));
 
 		Party p1 = new Party("SATO");
 		Party p2 = new Party("GOTO");
@@ -73,9 +73,9 @@ public class Initializer {
 		TaxRate rate2 = new TaxRate(tax, bd, ei2, term);
 		TaxRate rate3 = new TaxRate(tax, bd, ei3, term);
 
-		Product nacburger = new Product("ナックバーガー", 90);
-		Product naccheeseburger = new Product("ナックチーズバーガー", 120);
-		Product nacpotato_s = new Product("ナックポテトS", 150);
+		Product nacburger = new Product("ナックバーガー", new BigDecimal("90.00"));
+		Product naccheeseburger = new Product("ナックチーズバーガー", new BigDecimal("120.00"));
+		Product nacpotato_s = new Product("ナックポテトS", new BigDecimal("150.00"));
 
 		Party p1 = new Party("SATO");
 		Party p2 = new Party("GOTO");

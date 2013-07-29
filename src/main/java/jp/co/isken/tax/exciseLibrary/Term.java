@@ -38,4 +38,12 @@ public class Term {
 		this.to = to;
 	}
 
+	public boolean isEffectiveDate(Date date) {
+		if (from.before(date)
+				&& to.after(date)) {
+			return true;
+		}
+		return false;
+	}
+
 }

@@ -21,7 +21,8 @@ public class CFAccountTest {
 	@Test
 	public void アカウントの作成ができる() {
 		try {
-			CFAccount target = CFAccount.getAccount("現金");
+			CFAccount target = CFAccount.getAccount("現金",
+					Party.getParty("SATO"));
 		} catch (Exception e) {
 			fail("");
 		}

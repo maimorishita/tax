@@ -1,6 +1,7 @@
 package jp.co.isken.tax.exciseLibrary;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Item {
@@ -42,6 +43,10 @@ public class Item {
 		return TaxRate.getTaxRates(this);
 	}
 
+	public TaxRate getTaxRate(Date date) throws Exception {
+		return TaxRate.getTaxRates(this, date);
+	}
+	
 	public static void init() {
 		$itemList = new ArrayList<Item>();
 		count = 0;

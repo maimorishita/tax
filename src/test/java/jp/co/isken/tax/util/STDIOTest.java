@@ -34,30 +34,4 @@ public class STDIOTest {
 		_bais.close();
 		_baos.close();
 	}
-
-//	@Test
-//	public void testHello() {
-//		String inputString = joinStrings("‚±‚ñ‚É‚¿‚Í", "‚³‚æ‚¤‚È‚ç");
-//		System.setIn(new ByteArrayInputStream(inputString.getBytes()));
-//		StdIOSample.main(new String[0]);
-//		System.out.flush();
-//		String expected = joinStrings("Hello!", "http://www.hyuki.com/",
-//				"INPUT: ", "OUTPUT: ‚±‚ñ‚É‚¿‚Í", "INPUT: ", "OUTPUT: ‚³‚æ‚¤‚È‚ç",
-//				"PROGRAM END");
-//		String actual = _baos.toString();
-//		assertEquals(expected, actual);
-//	}
-
-	protected String joinStrings(String... strs) {
-		String newLine = System.getProperty("line.separator");
-		String result = "";
-		for (String s : strs) {
-			result += s + newLine;
-		}
-		return result;
-	}
-
-//	public static junit.framework.Test suite() {
-//		return new JUnit4TestAdapter(STDIOTest.class);
-//	}
 }

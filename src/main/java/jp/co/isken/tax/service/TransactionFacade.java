@@ -16,12 +16,11 @@ public class TransactionFacade {
 			Account account = entry.getAccount();
 			if (map.containsKey(account)) {
 				BigDecimal tmp = map.get(account);
-				tmp = tmp.add(new BigDecimal(entry.getAmmount()));
+				tmp = tmp.add(entry.getAmmount());
 				map.put(account, tmp);
 			} else {
-				BigDecimal subtotal = new BigDecimal(entry.getAmmount())
-						.multiply(new BigDecimal(entry.getAccount()
-								.getProduct().getPrice()));
+				BigDecimal subtotal = entry.getAmmount().multiply(
+						entry.getAccount().getProduct().getPrice());
 				map.put(account, subtotal);
 			}
 		}

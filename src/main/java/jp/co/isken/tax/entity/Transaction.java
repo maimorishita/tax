@@ -14,7 +14,6 @@ public class Transaction {
 	private Contract contract;
 	private Date whenOccered;
 	private Date whenNoticed;
-	private CFTransaction cfTransaction;
 	private static List<Transaction> $transactionList = new ArrayList<Transaction>();
 	private static int count = 0;
 
@@ -116,13 +115,10 @@ public class Transaction {
 		$transactionList = new ArrayList<Transaction>();
 	}
 
-	public CFTransaction getCFTransaction() {
-		return cfTransaction;
+	public List<CFTransaction> getCFTransactions() {
+		return CFTransaction.getCFTransactionByTransaction(this);
 	}
 
-	public void setCFTransaction(CFTransaction cfTransaction) {
-		this.cfTransaction = cfTransaction;
-	}
 
 	public void update() {
 		$transactionList.remove(this);
