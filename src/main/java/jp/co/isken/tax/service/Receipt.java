@@ -6,10 +6,13 @@ import java.util.Date;
 import java.util.List;
 
 import jp.co.isken.tax.entity.Account;
+import jp.co.isken.tax.entity.CanTax;
 import jp.co.isken.tax.entity.Contract;
 import jp.co.isken.tax.entity.Entry;
 import jp.co.isken.tax.entity.Product;
+import jp.co.isken.tax.entity.TaxableType;
 import jp.co.isken.tax.entity.Transaction;
+import jp.co.isken.tax.entity.TransactionType;
 
 public class Receipt {
 	
@@ -44,4 +47,9 @@ public class Receipt {
 		t.update();
 	}
 
+	public void set(TransactionType tt, CanTax canTax, TaxableType taxableType) {
+		t.setTransactionType(tt);
+		t.setCanTax(canTax);
+		t.setTaxableType(taxableType);
+	}
 }

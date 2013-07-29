@@ -14,11 +14,39 @@ public class Transaction {
 	private Contract contract;
 	private Date whenOccered;
 	private Date whenNoticed;
+	private TransactionType transactionType;
+	private CanTax canTax;
+	private TaxableType taxableType;
+
+	public CanTax getCanTax() {
+		return canTax;
+	}
+
+	public void setCanTax(CanTax canTax) {
+		this.canTax = canTax;
+	}
+
+	public TaxableType getTaxableType() {
+		return taxableType;
+	}
+
+	public void setTaxableType(TaxableType taxableType) {
+		this.taxableType = taxableType;
+	}
+
+	public TransactionType getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(TransactionType transactionType) {
+		this.transactionType = transactionType;
+	}
+
 	private static List<Transaction> $transactionList = new ArrayList<Transaction>();
-	private static int count = 0;
+	private static int $count = 0;
 
 	public Transaction(Contract c, Date occerd, Date noticed) {
-		id = count++;
+		id = $count++;
 		contract = c;
 		setWhenOccered(occerd);
 		setWhenNoticed(noticed);
@@ -43,7 +71,7 @@ public class Transaction {
 		if (isSave == false) {
 			isSave = true;
 			$transactionList.add(this);
-			count++;
+			$count++;
 		}
 	}
 
@@ -111,14 +139,13 @@ public class Transaction {
 	}
 
 	public static void init() {
-		count =0;
+		$count = 0;
 		$transactionList = new ArrayList<Transaction>();
 	}
 
 	public List<CFTransaction> getCFTransactions() {
 		return CFTransaction.getCFTransactionByTransaction(this);
 	}
-
 
 	public void update() {
 		$transactionList.remove(this);

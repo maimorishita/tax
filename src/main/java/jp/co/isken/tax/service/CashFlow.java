@@ -7,6 +7,7 @@ import java.util.List;
 import jp.co.isken.tax.entity.CFAccount;
 import jp.co.isken.tax.entity.CFEntry;
 import jp.co.isken.tax.entity.CFTransaction;
+import jp.co.isken.tax.entity.CanTax;
 import jp.co.isken.tax.entity.Entry;
 import jp.co.isken.tax.entity.Party;
 import jp.co.isken.tax.entity.Transaction;
@@ -36,7 +37,8 @@ public class CashFlow {
 	}
 
 	private CFAccount getExciseRateAccount(CFTransaction cfTransaction) {
-		CFAccount cfAccount = CFAccount.getAccount(HardCode.EXCISE, cfTransaction.getCustomer());
+		CFAccount cfAccount = CFAccount.getAccount(HardCode.EXCISE,
+				cfTransaction.getCustomer());
 		return cfAccount;
 	}
 
@@ -44,13 +46,19 @@ public class CashFlow {
 			throws Exception {
 		BigDecimal subTotal = entry.getAmmount().multiply(
 				entry.getAccount().getProduct().getPrice());
-		new CFEntry(cfTransaction, getAccount(cfTransaction.getCustomer()), subTotal);
+		new CFEntry(cfTransaction, getAccount(cfTransaction.getCustomer()),
+				subTotal);
 		createExciseEntry(subTotal, cfTransaction, entry);
 	}
 
-	public void createExciseEntry(BigDecimal bd, CFTransaction cfTransaction, Entry entry) throws Exception {
+	public void createExciseEntry(BigDecimal bd, CFTransaction cfTransaction,
+			Entry entry) throws Exception {
+		if (entry.getTransaction().getCanTax().equals(CanTax.INTERNATIONAL)) {
+			return;
+		}
 		BigDecimal rate = Item
-				.getItemByName(entry.getAccount().getProduct().getItem().getName())
+				.getItemByName(
+						entry.getAccount().getProduct().getItem().getName())
 				.getTaxRate(cfTransaction.getWhenOccered()).getRate();
 		CFAccount account = getExciseRateAccount(cfTransaction);
 		new CFEntry(cfTransaction, account, bd.multiply(rate));

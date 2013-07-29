@@ -7,11 +7,13 @@ import java.util.Date;
 import java.util.List;
 
 import jp.co.isken.tax.entity.CFTransaction;
+import jp.co.isken.tax.entity.CanTax;
 import jp.co.isken.tax.entity.Contract;
+import jp.co.isken.tax.entity.TaxableType;
 import jp.co.isken.tax.entity.Transaction;
+import jp.co.isken.tax.entity.TransactionType;
 import jp.co.isken.tax.run.Initializer;
 import jp.co.isken.tax.util.HardCode;
-import jp.co.isken.tax.util.TestUtil;
 import jp.co.isken.tax.util.Util;
 
 import org.junit.Before;
@@ -40,6 +42,8 @@ public class ReciptTest {
 	public void ’•¶‚ğ“o˜^‚µ‚Ä‘ã‹à‚ÆÁ”ïÅ‚ğŒvZ‚·‚é() throws Exception {
 		Date date = Util.stringToDate("20130707000000");
 		Receipt receipt = new Receipt(date,0);
+		receipt.set(TransactionType.getEnum("”Ì”„"), CanTax.getEnum("‘“à"),
+				TaxableType.getEnum("ĞŠO"));
 		receipt.addLineItem(0, 1);
 		receipt.addLineItem(1, 2);
 		receipt.save();

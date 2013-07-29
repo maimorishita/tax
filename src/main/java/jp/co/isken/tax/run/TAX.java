@@ -9,10 +9,14 @@ import java.util.Iterator;
 
 import jp.co.isken.tax.entity.CFTransaction;
 import jp.co.isken.tax.entity.Contract;
+import jp.co.isken.tax.entity.TaxableType;
 import jp.co.isken.tax.entity.Transaction;
+import jp.co.isken.tax.entity.TransactionType;
+import jp.co.isken.tax.entity.CanTax;
 import jp.co.isken.tax.service.ContractFacade;
 import jp.co.isken.tax.service.ProductFacade;
 import jp.co.isken.tax.service.Receipt;
+import jp.co.isken.tax.util.HardCode;
 
 public class TAX {
 
@@ -61,10 +65,26 @@ public class TAX {
 
 	public static void sell(Date _date) throws Exception {
 		Receipt receipt = selectContract(_date);
+		boolean isfirst = true;
 		while (true) {
-			System.out.println("\n販売メニュー:(1.注文　2.会計) )");
+			System.out.println(HardCode.SELLMENU);
 			char op = Input.$getOp();
 			if (op == '1') {
+				if (isfirst == true) {
+					showTransactionTypeEnum();
+					System.out.println("\n取引種別を選んでください。");
+					int tt = Input.$getNumber();
+					showCanTaxEnum();
+					System.out.println("\n不課税対象区分を選んでください。");
+					int cantax = Input.$getNumber();
+					showTaxableTypeEnum();
+					System.out.println("\n課税対象区分を選んでください。");
+					int taxable = Input.$getNumber();
+					receipt.set(TransactionType.getEnumById(tt),
+							CanTax.getEnumById(cantax),
+							TaxableType.getEnumById(taxable));
+					isfirst = false;
+				}
 				order(receipt);
 			} else if (op == '2') {
 				saveReceipt(receipt);
@@ -76,7 +96,25 @@ public class TAX {
 			}
 		}
 	}
-	
+
+	private static void showTransactionTypeEnum() {
+		for (TransactionType e : TransactionType.values()) {
+			System.out.println(e.getId() + ": " + e.getName());
+		}
+	}
+
+	private static void showCanTaxEnum() {
+		for (CanTax e : CanTax.values()) {
+			System.out.println(e.getId() + ": " + e.getName());
+		}
+	}
+
+	private static void showTaxableTypeEnum() {
+		for (TaxableType e : TaxableType.values()) {
+			System.out.println(e.getId() + ": " + e.getName());
+		}
+	}
+
 	public static void order(Receipt receipt) throws Exception {
 		displayList(ProductFacade.iterator());
 		System.out.println("\nメニューの中から選んでください(商品ID)");
@@ -93,8 +131,6 @@ public class TAX {
 	public static void total(Receipt receipt) throws Exception {
 		receipt.total();
 	}
-
-	
 
 	public static Receipt selectContract(Date _date) {
 		displayList(Contract.iterator());
@@ -113,13 +149,12 @@ public class TAX {
 		targets = Transaction.getTransactions(c, _date);
 		while (targets.hasNext()) {
 			Transaction t = targets.next();
-			for(CFTransaction cft : t.getCFTransactions()){
+			for (CFTransaction cft : t.getCFTransactions()) {
 				System.out.println(cft.toString());
 			}
 		}
 	}
 
-	
 	private static <T> void displayList(Iterator<T> iter) {
 		while (iter.hasNext()) {
 			System.out.println(iter.next().toString());
