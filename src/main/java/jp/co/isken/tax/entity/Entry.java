@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.co.isken.tax.entity.transaction.Transaction;
+
 public class Entry {
 
 	private int id ;

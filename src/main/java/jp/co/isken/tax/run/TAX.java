@@ -7,14 +7,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
-import jp.co.isken.tax.entity.CFTransaction;
 import jp.co.isken.tax.entity.Contract;
-import jp.co.isken.tax.entity.TaxableType;
-import jp.co.isken.tax.entity.Transaction;
-import jp.co.isken.tax.entity.TransactionType;
-import jp.co.isken.tax.entity.CanTax;
+import jp.co.isken.tax.entity.Product;
+import jp.co.isken.tax.entity.cashFlow.CFTransaction;
+import jp.co.isken.tax.entity.transaction.CanTax;
+import jp.co.isken.tax.entity.transaction.TaxableType;
+import jp.co.isken.tax.entity.transaction.Transaction;
+import jp.co.isken.tax.entity.transaction.TransactionType;
 import jp.co.isken.tax.service.ContractFacade;
-import jp.co.isken.tax.service.ProductFacade;
 import jp.co.isken.tax.service.Receipt;
 import jp.co.isken.tax.util.HardCode;
 
@@ -53,13 +53,16 @@ public class TAX {
 	public static void contract(Date _date) throws Exception {
 		System.out.println("取引先名を入力してください");
 		String party = Input.$getLine();
+		System.out.println("締結日を入力してください(yy/MM/dd)");
+		Date contracatedDate = Input.$getDate();
+		System.out.println("発効日を入力してください(yy/MM/dd)");
+		Date effectiveDate = Input.$getDate();
 		System.out.println("丸め方法を入力してください");
 		String calType = Input.$getLine();
-		System.out.println("課税日基準を入力してください");
-		String baseDateType = Input.$getLine();
 		System.out.println("下記の通りに記録しました。");
-		ContractFacade.saveContract(_date, party, calType, baseDateType);
-		Contract contract = ContractFacade.getContract(party, _date);
+		ContractFacade.saveContract(contracatedDate, effectiveDate, party,
+				calType);
+		Contract contract = ContractFacade.getContracatByContractedDate(party, _date);
 		System.out.println(contract.toString());
 	}
 
@@ -116,7 +119,7 @@ public class TAX {
 	}
 
 	public static void order(Receipt receipt) throws Exception {
-		displayList(ProductFacade.iterator());
+		displayList(Product.iterator());
 		System.out.println("\nメニューの中から選んでください(商品ID)");
 		int id = Input.$getNumber();
 		System.out.println("\n個数を入力してください");

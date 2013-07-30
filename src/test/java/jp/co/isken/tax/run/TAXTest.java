@@ -29,7 +29,7 @@ public class TAXTest extends STDIOTest {
 		System.out.flush();
 		String menuAndInput = TestUtil
 				.joinStrings(
-						"0 : 20130707000000, 20130707000000, SATO, 切捨て, 計上日",
+						"0 : 20130707000000, 20130708000000, SATO, 切捨て",
 						"\n一覧かから選んでください(契約ID)",
 						"\n販売メニュー:(1.注文　2.会計) )",
 						"1: 販売",

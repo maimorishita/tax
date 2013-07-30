@@ -1,10 +1,13 @@
-package jp.co.isken.tax.entity;
+package jp.co.isken.tax.entity.transaction;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import jp.co.isken.tax.entity.Contract;
+import jp.co.isken.tax.entity.Entry;
+import jp.co.isken.tax.entity.cashFlow.CFTransaction;
 import jp.co.isken.tax.util.Util;
 
 public class Transaction {
@@ -151,8 +154,4 @@ public class Transaction {
 		$transactionList.remove(this);
 		$transactionList.add(this);
 	}
-
-	// public List<CFTransaction> getCashFlowT() {
-	// return CFTransaction.getCashFlowTByTransaction(this);
-	// }
 }

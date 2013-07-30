@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 
 import java.util.Iterator;
 
+import jp.co.isken.tax.entity.cashFlow.CFAccount;
 import jp.co.isken.tax.run.Initializer;
 
 import org.junit.Before;

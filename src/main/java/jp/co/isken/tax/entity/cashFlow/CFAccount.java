@@ -1,8 +1,11 @@
-package jp.co.isken.tax.entity;
+package jp.co.isken.tax.entity.cashFlow;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import jp.co.isken.tax.entity.Account;
+import jp.co.isken.tax.entity.Party;
 
 public class CFAccount {
 

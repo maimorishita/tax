@@ -1,4 +1,4 @@
-package jp.co.isken.tax.entity;
+package jp.co.isken.tax.taxLibrary.transaction;
 
 public enum CanTax {
 

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import jp.co.isken.tax.entity.Account;
 import jp.co.isken.tax.entity.Entry;
-import jp.co.isken.tax.entity.Transaction;
+import jp.co.isken.tax.entity.transaction.Transaction;
 
 public class TransactionFacade {
 

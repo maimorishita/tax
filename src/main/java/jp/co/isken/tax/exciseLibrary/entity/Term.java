@@ -1,4 +1,4 @@
-package jp.co.isken.tax.exciseLibrary;
+package jp.co.isken.tax.exciseLibrary.entity;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package jp.co.isken.tax.entity;
+package jp.co.isken.tax.entity.cashFlow;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

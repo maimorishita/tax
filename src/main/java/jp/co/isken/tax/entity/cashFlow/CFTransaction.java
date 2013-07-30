@@ -1,10 +1,13 @@
-package jp.co.isken.tax.entity;
+package jp.co.isken.tax.entity.cashFlow;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import jp.co.isken.tax.entity.Entry;
+import jp.co.isken.tax.entity.Party;
+import jp.co.isken.tax.entity.transaction.Transaction;
 import jp.co.isken.tax.util.Util;
 
 public class CFTransaction {
@@ -13,6 +16,8 @@ public class CFTransaction {
 	private Date whenOccered;
 	private Date whenNoticed;
 	private Entry entry;
+	private static List<CFTransaction> $TransactionList = new ArrayList<CFTransaction>();
+	private static int $count;
 
 	public Entry getEntry() {
 		return entry;
@@ -22,11 +27,10 @@ public class CFTransaction {
 		this.entry = entry;
 	}
 
-	private static List<CFTransaction> $TransactionList = new ArrayList<CFTransaction>();
-	private static int count;
+
 
 	public CFTransaction(Entry entry) {
-		id = count++;
+		id = $count++;
 		setWhenOccered(entry.getTransaction().getWhenOccered());
 		setWhenNoticed(entry.getTransaction().getWhenNoticed());
 		this.entry = entry;
@@ -87,7 +91,7 @@ public class CFTransaction {
 
 	public static void init() {
 		$TransactionList = new ArrayList<CFTransaction>();
-		count = 0;
+		$count = 0;
 	}
 
 	public Party getCustomer() {

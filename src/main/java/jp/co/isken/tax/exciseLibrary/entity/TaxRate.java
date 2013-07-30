@@ -1,4 +1,4 @@
-package jp.co.isken.tax.exciseLibrary;
+package jp.co.isken.tax.exciseLibrary.entity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

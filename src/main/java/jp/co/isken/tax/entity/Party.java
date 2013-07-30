@@ -6,13 +6,13 @@ import java.util.List;
 
 public class Party {
 
-	private static int count = 0;
+	private static int $count = 0;
 	private static List<Party> $partyList = new ArrayList<Party>();
 	private int id;
 	private String name;
 
 	public Party(String name) {
-		id = count++;
+		id = $count++;
 		this.name = name;
 		Party.$partyList.add(this);
 	}

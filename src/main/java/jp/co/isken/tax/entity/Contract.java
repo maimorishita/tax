@@ -10,39 +10,28 @@ import jp.co.isken.tax.util.Util;
 public class Contract {
 
 	private static List<Contract> $contractList = new ArrayList<Contract>();
-	private static int count = 0;
+	private static int $count = 0;
 	private int id;
 	private Date contractDate;
 	private Date effectiveDate;
 	private Party customer;
 	private String calType;
-	private String baseDateType;
 
-	public Contract(Date date, Party party, String calType, String baseDateType) {
-		id = count++;
-		setContractDate(date);
-		effectiveDate = date;
-		setCustomer(party);
+	public Contract(Date contractdate, Date effectiveDate, Party party,
+			String calType) {
+		id = $count++;
+		this.contractDate = contractdate;
+		this.effectiveDate = effectiveDate;
+		this.customer = party;
 		this.calType = calType;
-		this.baseDateType = baseDateType;
 		Contract.$contractList.add(this);
-	}
-
-	public static Contract getContracat(String name, Date date) throws Exception {
-		for (Contract c : Contract.$contractList) {
-			if (c.getCustomer().getName().equals(name)
-					&& c.getContractDate().equals(date)) {
-				return c;
-			}
-		}
-		throw new Exception();
 	}
 
 	public String toString() {
 		String contractd = Util.dateToString(contractDate);
 		String effectived = Util.dateToString(effectiveDate);
 		return id + " : " + contractd + ", " + effectived + ", "
-				+ customer.getName() + ", " + calType + ", " + baseDateType;
+				+ customer.getName() + ", " + calType;
 	}
 
 	public Party getCustomer() {
@@ -71,7 +60,7 @@ public class Contract {
 
 	public static Contract getContract(int contractId) {
 		for (Contract c : Contract.$contractList) {
-			if (c.getId() == contractId){
+			if (c.getId() == contractId) {
 				return c;
 			}
 		}
@@ -81,6 +70,6 @@ public class Contract {
 
 	public static void init() {
 		$contractList = new ArrayList<Contract>();
-		count = 0;
+		$count = 0;
 	}
 }

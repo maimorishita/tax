@@ -9,7 +9,7 @@ public class Product {
 
 	private int id;
 	private String name;
-	private BigDecimal price= new BigDecimal("0.00");
+	private BigDecimal price = new BigDecimal("0.00");
 	private Item item;
 	private static List<Product> $productList = new ArrayList<Product>();
 	private static int count = 0;
@@ -18,7 +18,7 @@ public class Product {
 		this.id = count++;
 		this.name = name;
 		this.price = price;
-		//TOOD　多重度直す item:product=1:1;
+		// TOOD　多重度直す item:product=1:1;
 		this.item = new Item(name);
 		$productList.add(this);
 	}
@@ -56,7 +56,7 @@ public class Product {
 
 	public static void init() {
 		count = 0;
-		$productList = new ArrayList<Product>();	
+		$productList = new ArrayList<Product>();
 	}
 
 	public static Product getProductByName(String name) throws Exception {
@@ -71,6 +71,4 @@ public class Product {
 	public Item getItem() {
 		return item;
 	}
-
-	
 }

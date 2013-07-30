@@ -6,13 +6,13 @@ import java.util.Date;
 import java.util.List;
 
 import jp.co.isken.tax.entity.Account;
-import jp.co.isken.tax.entity.CanTax;
 import jp.co.isken.tax.entity.Contract;
 import jp.co.isken.tax.entity.Entry;
 import jp.co.isken.tax.entity.Product;
-import jp.co.isken.tax.entity.TaxableType;
-import jp.co.isken.tax.entity.Transaction;
-import jp.co.isken.tax.entity.TransactionType;
+import jp.co.isken.tax.entity.transaction.CanTax;
+import jp.co.isken.tax.entity.transaction.TaxableType;
+import jp.co.isken.tax.entity.transaction.Transaction;
+import jp.co.isken.tax.entity.transaction.TransactionType;
 
 public class Receipt {
 	
@@ -22,13 +22,28 @@ public class Receipt {
 	public Receipt(Date _date, int contractId) {
 		t = new Transaction(Contract.getContract(contractId), _date, _date);
 	}
+	
+	public void set(TransactionType tt, CanTax canTax, TaxableType taxableType) {
+		t.setTransactionType(tt);
+		t.setCanTax(canTax);
+		t.setTaxableType(taxableType);
+	}
 
-	public void addLineItem(int id, int quantity) throws Exception {
-		Account a = Account.getAccount(Product.getProduct(id), t.getContract().getCustomer());
+	public void addLineItem(int productId, int quantity) throws Exception {
+		Account account = getAccount(productId);
+		Entry entry = createEntry(quantity, account);
+		entryList.add(entry);
+	}
+
+	private Entry createEntry(int quantity, Account a) {
 		BigDecimal bd = new BigDecimal("0.00");
 		bd = BigDecimal.valueOf(quantity);
 		Entry e = new Entry(t, a, bd);
-		entryList.add(e);
+		return e;
+	}
+
+	private Account getAccount(int productId) throws Exception {
+		return Account.getAccount(Product.getProduct(productId), t.getContract().getCustomer());
 	}
 	
 	public void save(){
@@ -38,18 +53,12 @@ public class Receipt {
 		}
 	}
 
+	public void total() throws Exception {
+		CashFlow.createCashFlowByEntries(t.getEntries());
+	}
+
+	
 	public Transaction getTransaction() {
 		return t;
-	}
-
-	public void total() throws Exception {
-		CashFlow cf = new CashFlow(t);
-		t.update();
-	}
-
-	public void set(TransactionType tt, CanTax canTax, TaxableType taxableType) {
-		t.setTransactionType(tt);
-		t.setCanTax(canTax);
-		t.setTaxableType(taxableType);
 	}
 }
