@@ -4,42 +4,49 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import jp.co.isken.tax.exciseLibrary.entity.Item;
-import jp.co.isken.tax.taxLibrary.transaction.CanTax;
-import jp.co.isken.tax.taxLibrary.transaction.TaxableType;
-import jp.co.isken.tax.taxLibrary.transaction.TransactionType;
+import jp.co.isken.tax.exciseLibrary.transaction.CanTax;
 
 public class CalculationTaxAmount {
 
 	public static BigDecimal getExciese(String itemName, BigDecimal itemAmount,
-			Date whenOccered, Date whenNoticed, String transactionType,
-			String canTax, String taxableType) throws Exception {
-		canTaxByTransactionType(transactionType);
-		canTaxByCanTaxType(canTax);
-		CanTaxByTaxableType(taxableType);
+			Date whenOccered, String canTaxType, String calTaxOption)
+			throws Exception {
+
+		if (isInternationalTransaction(canTaxType)) {
+			return new BigDecimal("0");
+		}
+		BigDecimal rs = calcuration(itemName, itemAmount, whenOccered,
+				calTaxOption);
+		return rs;
+	}
+
+	public static BigDecimal calcuration(String itemName,
+			BigDecimal itemAmount, Date whenOccered, String calTaxOption)
+			throws Exception {
 		Item i = Item.getItemByName(itemName);
-		BigDecimal rate = i.getTaxRate(whenOccered).getRate();
-		return itemAmount.multiply(rate);
+		BigDecimal rate = getRate(whenOccered, i);
+		BigDecimal taxAmount = itemAmount.multiply(rate);
+		BigDecimal rs = roundTaxAmount(taxAmount, calTaxOption);
+		return rs;
 	}
 
-	public static BigDecimal CanTaxByTaxableType(String taxableType) throws Exception {
-		if (taxableType.equals(TaxableType.INSIDE.getName())) {
-			throw new Exception("社内取引は課税されません。");
+	public static boolean isInternationalTransaction(String canTax) {
+		return CanTax.INTERNATIONAL.getName().equals(canTax);
+	}
+
+	public static BigDecimal getRate(Date whenOccered, Item i) throws Exception {
+		return i.getTaxRate(whenOccered).getRate();
+	}
+
+	private static BigDecimal roundTaxAmount(BigDecimal target,
+			String calTaxOption) throws Exception {
+		if (CalTaxOption.ROOUND_UP.getName().equals(calTaxOption)) {
+			return target.setScale(0, BigDecimal.ROUND_UP);
+		} else if (CalTaxOption.ROUND_DOWN.getName().equals(calTaxOption)) {
+			return target.setScale(0, BigDecimal.ROUND_DOWN);
+		} else if (CalTaxOption.ROUND_HALF_UP.getName().equals(calTaxOption)) {
+			return target.setScale(0, BigDecimal.ROUND_HALF_UP);
 		}
-		return new BigDecimal("0");
+		throw new Exception("不正な丸め計算方式です。");
 	}
-
-	public static BigDecimal canTaxByCanTaxType(String canTax) throws Exception {
-		if (canTax.equals(CanTax.INTERNATIONAL.getName())) {
-			throw new Exception("国外取引は課税されません。");
-		}
-		return new BigDecimal("0");
-	}
-
-	public static BigDecimal canTaxByTransactionType(String transactionType) throws Exception {
-		if (transactionType.equals(TransactionType.PURCHASE.getName())) {
-			throw new Exception("仕入取引は課税されません。");
-		}
-		return new BigDecimal("0");
-	}
-
 }

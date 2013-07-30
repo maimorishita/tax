@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
+import jp.co.isken.tax.entity.CalTaxOption;
 import jp.co.isken.tax.entity.Contract;
 import jp.co.isken.tax.entity.Product;
 import jp.co.isken.tax.entity.cashFlow.CFTransaction;
@@ -57,15 +58,17 @@ public class TAX {
 		Date contracatedDate = Input.$getDate();
 		System.out.println("発効日を入力してください(yy/MM/dd)");
 		Date effectiveDate = Input.$getDate();
+		showCalTaxOption();
 		System.out.println("丸め方法を入力してください");
-		String calType = Input.$getLine();
+		int calType = Input.$getNumber();
 		System.out.println("下記の通りに記録しました。");
 		ContractFacade.saveContract(contracatedDate, effectiveDate, party,
 				calType);
-		Contract contract = ContractFacade.getContracatByContractedDate(party, _date);
+		Contract contract = ContractFacade.getContracatByContractedDate(party, contracatedDate);
 		System.out.println(contract.toString());
 	}
 
+	
 	public static void sell(Date _date) throws Exception {
 		Receipt receipt = selectContract(_date);
 		boolean isfirst = true;
@@ -100,6 +103,14 @@ public class TAX {
 		}
 	}
 
+	
+	private static void showCalTaxOption() {
+		for (CalTaxOption e : CalTaxOption.values()) {
+			System.out.println(e.getId() + ": " + e.getName());
+		}
+	}
+
+	
 	private static void showTransactionTypeEnum() {
 		for (TransactionType e : TransactionType.values()) {
 			System.out.println(e.getId() + ": " + e.getName());

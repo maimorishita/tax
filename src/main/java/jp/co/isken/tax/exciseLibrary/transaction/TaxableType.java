@@ -1,4 +1,4 @@
-package jp.co.isken.tax.taxLibrary.transaction;
+package jp.co.isken.tax.exciseLibrary.transaction;
 
 public enum TaxableType {
 

@@ -24,28 +24,30 @@ public class CalExciseServiceTest {
 	public void 消費税を計算する() throws Exception {
 		Date date = Util.stringToDate("20130707000000");
 		BigDecimal target = CalculationTaxAmount.getExciese("ナックバーガー",
-				new BigDecimal("90.00"), date, date, "販売", "国内", "社外");
-		assertThat(target, is(new BigDecimal("4.5000")));
+				new BigDecimal("90.00"), date, "国内", "切捨て");
+		assertThat(target, is(new BigDecimal("4")));
 	}
 
-	@Test(expected = Exception.class)
-	public void 仕入取引の場合は消費税を計算しない() throws Exception {
+	@Test
+	public void 消費税を計算する_切上げ() throws Exception {
 		Date date = Util.stringToDate("20130707000000");
 		BigDecimal target = CalculationTaxAmount.getExciese("ナックバーガー",
-				new BigDecimal("90.00"), date, date, "仕入", "国内", "社外");
+				new BigDecimal("90.00"), date, "国内", "切上げ");
+		assertThat(target, is(new BigDecimal("5")));
 	}
-	
-	@Test(expected = Exception.class)
+
+	@Test
+	public void 消費税を計算する_四捨五入() throws Exception {
+		Date date = Util.stringToDate("20130707000000");
+		BigDecimal target = CalculationTaxAmount.getExciese("ナックバーガー",
+				new BigDecimal("90.00"), date, "国内", "四捨五入");
+		assertThat(target, is(new BigDecimal("5")));
+	}
+
 	public void 国外取引の場合は消費税を計算しない() throws Exception {
 		Date date = Util.stringToDate("20130707000000");
 		BigDecimal target = CalculationTaxAmount.getExciese("ナックバーガー",
-				new BigDecimal("90.00"), date, date, "販売", "国外", "社外");
-	}
-	
-	@Test(expected = Exception.class)
-	public void 社内取引の場合は消費税を計算しない() throws Exception {
-		Date date = Util.stringToDate("20130707000000");
-		BigDecimal target = CalculationTaxAmount.getExciese("ナックバーガー",
-				new BigDecimal("90.00"), date, date, "販売", "国内", "社内");
+				new BigDecimal("90.00"), date, "国外", "切捨て");
+		assertThat(target, is(new BigDecimal("0")));
 	}
 }

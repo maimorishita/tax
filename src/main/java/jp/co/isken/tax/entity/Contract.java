@@ -15,10 +15,10 @@ public class Contract {
 	private Date contractDate;
 	private Date effectiveDate;
 	private Party customer;
-	private String calType;
+	private CalTaxOption calType;
 
 	public Contract(Date contractdate, Date effectiveDate, Party party,
-			String calType) {
+			CalTaxOption calType) {
 		id = $count++;
 		this.contractDate = contractdate;
 		this.effectiveDate = effectiveDate;
@@ -31,7 +31,7 @@ public class Contract {
 		String contractd = Util.dateToString(contractDate);
 		String effectived = Util.dateToString(effectiveDate);
 		return id + " : " + contractd + ", " + effectived + ", "
-				+ customer.getName() + ", " + calType;
+				+ customer.getName() + ", " + calType.getName();
 	}
 
 	public Party getCustomer() {
@@ -56,6 +56,10 @@ public class Contract {
 
 	public int getId() {
 		return id;
+	}
+
+	public CalTaxOption getRoundOption() {
+		return this.calType;
 	}
 
 	public static Contract getContract(int contractId) {

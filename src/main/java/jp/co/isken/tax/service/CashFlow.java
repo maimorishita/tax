@@ -8,7 +8,9 @@ import jp.co.isken.tax.entity.Party;
 import jp.co.isken.tax.entity.cashFlow.CFAccount;
 import jp.co.isken.tax.entity.cashFlow.CFEntry;
 import jp.co.isken.tax.entity.cashFlow.CFTransaction;
+import jp.co.isken.tax.entity.transaction.TaxableType;
 import jp.co.isken.tax.entity.transaction.Transaction;
+import jp.co.isken.tax.entity.transaction.TransactionType;
 import jp.co.isken.tax.exciseLibrary.service.CalExciseFacade;
 import jp.co.isken.tax.util.HardCode;
 
@@ -47,19 +49,17 @@ public class CashFlow {
 				getAccount(cfTransaction.getCustomer()), subTotal);
 	}
 
-	public static void createExciseEntry(CFEntry taxableEntry) {
-		String itemName = getItemName(taxableEntry);
-		CFAccount account = getExciseRateAccount(taxableEntry.getTransaction());
+	public static void createExciseEntry(CFEntry taxableEntry) throws Exception {
 		Transaction t = taxableEntry.getTransaction().getEntry()
 				.getTransaction();
-		BigDecimal taxAmount = null;
-		try {
-			taxAmount = getExciseAmount(taxableEntry, itemName, t);
-		} catch (Exception e) {
-			taxAmount = new BigDecimal("0.00");
+		if (TransactionType.PURCHASE.equals(t.getTransactionType())
+				|| TaxableType.INSIDE.equals(t.getTaxableType())) {
+			return;
 		}
+		String itemName = getItemName(taxableEntry);
+		CFAccount account = getExciseRateAccount(taxableEntry.getTransaction());
+		BigDecimal taxAmount = getExciseAmount(taxableEntry, itemName, t);
 		new CFEntry(taxableEntry.getTransaction(), account, taxAmount);
-
 	}
 
 	private static String getItemName(CFEntry taxableEntry) {
@@ -70,9 +70,8 @@ public class CashFlow {
 	public static BigDecimal getExciseAmount(CFEntry taxableEntry,
 			String itemName, Transaction t) throws Exception {
 		return CalExciseFacade.getExciese(itemName, taxableEntry.getAmmount(),
-				t.getWhenOccered(), t.getWhenNoticed(), t.getTransactionType()
-						.getName(), t.getCanTax().getName(), t.getTaxableType()
-						.getName());
+				t.getWhenOccered(), t.getCanTax().getName(), t.getContract()
+						.getRoundOption().getName());
 	}
 
 	public void saveTransaction(CFTransaction cfTransaction) {

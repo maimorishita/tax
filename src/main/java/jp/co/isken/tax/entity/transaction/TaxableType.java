@@ -1,5 +1,6 @@
 package jp.co.isken.tax.entity.transaction;
 
+
 public enum TaxableType {
 
 	INSIDE(1, "ŽÐ“à"), OUTSIDE(2, "ŽÐŠO");

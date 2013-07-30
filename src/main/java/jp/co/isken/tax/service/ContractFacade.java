@@ -3,15 +3,16 @@ package jp.co.isken.tax.service;
 import java.util.Date;
 import java.util.Iterator;
 
+import jp.co.isken.tax.entity.CalTaxOption;
 import jp.co.isken.tax.entity.Contract;
 import jp.co.isken.tax.entity.Party;
 
 public class ContractFacade {
 
 	public static void saveContract(Date contractedDate, Date effectiveDate,
-			String party, String calType) {
+			String party, int calTypeId) {
 		Contract c = new Contract(contractedDate, effectiveDate,
-				Party.getParty(party), calType);
+				Party.getParty(party), CalTaxOption.getEnumById(calTypeId));
 	}
 
 	public static Contract getContracatByContractedDate(String partyName,

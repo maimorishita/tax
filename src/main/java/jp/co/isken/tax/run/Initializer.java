@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import jp.co.isken.tax.entity.Account;
+import jp.co.isken.tax.entity.CalTaxOption;
 import jp.co.isken.tax.entity.Contract;
 import jp.co.isken.tax.entity.Entry;
 import jp.co.isken.tax.entity.Party;
@@ -57,7 +58,8 @@ public class Initializer {
 
 		Date contractedDate = Util.stringToDate("20130707000000");
 		Date effectiveDate = Util.stringToDate("20130708000000");
-		Contract c = new Contract(contractedDate, effectiveDate, p1, "ØÌ‚Ä");
+		Contract c = new Contract(contractedDate, effectiveDate, p1,
+				CalTaxOption.ROUND_DOWN);
 	}
 
 	public static void test() {
@@ -88,7 +90,7 @@ public class Initializer {
 		Date contractedDate = Util.stringToDate("20130707000000");
 		Date effectiveDate = Util.stringToDate("20130708000000");
 		Contract c = new Contract(contractedDate, effectiveDate, p1,
-				"ØÌ‚Ä");
+				CalTaxOption.ROUND_DOWN);
 
 	}
 
