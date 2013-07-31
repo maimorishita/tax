@@ -40,13 +40,6 @@ public class CalculationTaxAmount {
 
 	private static BigDecimal roundTaxAmount(BigDecimal target,
 			String calTaxOption) throws Exception {
-		if (CalTaxOption.ROOUND_UP.getName().equals(calTaxOption)) {
-			return target.setScale(0, BigDecimal.ROUND_UP);
-		} else if (CalTaxOption.ROUND_DOWN.getName().equals(calTaxOption)) {
-			return target.setScale(0, BigDecimal.ROUND_DOWN);
-		} else if (CalTaxOption.ROUND_HALF_UP.getName().equals(calTaxOption)) {
-			return target.setScale(0, BigDecimal.ROUND_HALF_UP);
-		}
-		throw new Exception("ïsê≥Ç»ä€ÇﬂåvéZï˚éÆÇ≈Ç∑ÅB");
+		return CalTaxOption.getEnum(calTaxOption).round(target);
 	}
 }

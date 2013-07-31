@@ -1,10 +1,28 @@
 package jp.co.isken.tax.exciseLibrary.service;
 
+import java.math.BigDecimal;
 
 public enum CalTaxOption {
 
-	ROOUND_UP(1,"Øã‚°"), ROUND_DOWN(2,"ØÌ‚Ä"), ROUND_HALF_UP(3,"lÌŒÜ“ü");
-	
+	ROOUND_UP(1, "Øã‚°") {
+		@Override
+		BigDecimal round(BigDecimal target) {
+			return target.setScale(0, BigDecimal.ROUND_UP);
+		}
+	},
+	ROUND_DOWN(2, "ØÌ‚Ä") {
+		@Override
+		BigDecimal round(BigDecimal target) {
+			return target.setScale(0, BigDecimal.ROUND_DOWN);
+		}
+	},
+	ROUND_HALF_UP(3, "lÌŒÜ“ü") {
+		@Override
+		BigDecimal round(BigDecimal target) {
+			return target.setScale(0, BigDecimal.ROUND_HALF_UP);
+		}
+	};
+
 	private String name;
 	private int id;
 
@@ -39,5 +57,7 @@ public enum CalTaxOption {
 		}
 		return null;
 	}
-	
+
+	abstract BigDecimal round(BigDecimal target);
+
 }
