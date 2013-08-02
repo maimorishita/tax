@@ -16,7 +16,7 @@ public class TAXTest extends STDIOTest {
 
 	@Before
 	public void init() {
-		Initializer.test();
+		jp.co.isken.tax.util.Initializer.test();
 	}
 
 	@Test

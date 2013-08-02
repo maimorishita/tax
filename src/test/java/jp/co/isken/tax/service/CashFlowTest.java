@@ -1,6 +1,6 @@
 package jp.co.isken.tax.service;
 
-import jp.co.isken.tax.run.Initializer;
+import jp.co.isken.tax.util.Initializer;
 
 import org.junit.Before;
 

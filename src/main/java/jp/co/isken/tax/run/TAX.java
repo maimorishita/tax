@@ -16,7 +16,7 @@ import jp.co.isken.tax.entity.transaction.TaxableType;
 import jp.co.isken.tax.entity.transaction.Transaction;
 import jp.co.isken.tax.entity.transaction.TransactionType;
 import jp.co.isken.tax.service.ContractFacade;
-import jp.co.isken.tax.service.Receipt;
+import jp.co.isken.tax.service.Order;
 import jp.co.isken.tax.util.HardCode;
 
 public class TAX {
@@ -70,7 +70,7 @@ public class TAX {
 
 	
 	public static void sell(Date _date) throws Exception {
-		Receipt receipt = selectContract(_date);
+		Order order = selectContract(_date);
 		boolean isfirst = true;
 		while (true) {
 			System.out.println(HardCode.SELLMENU);
@@ -86,16 +86,16 @@ public class TAX {
 					showTaxableTypeEnum();
 					System.out.println("\n課税対象区分を選んでください。");
 					int taxable = Input.$getNumber();
-					receipt.set(TransactionType.getEnumById(tt),
+					order.set(TransactionType.getEnumById(tt),
 							CanTax.getEnumById(cantax),
 							TaxableType.getEnumById(taxable));
 					isfirst = false;
 				}
-				order(receipt);
+				order(order);
 			} else if (op == '2') {
-				saveReceipt(receipt);
-				total(receipt);
-				showTotal(_date, receipt);
+				saveorder(order);
+				total(order);
+				showTotal(_date, order);
 				break;
 			} else {
 				break;
@@ -129,34 +129,34 @@ public class TAX {
 		}
 	}
 
-	public static void order(Receipt receipt) throws Exception {
+	public static void order(Order order) throws Exception {
 		displayList(Product.iterator());
 		System.out.println("\nメニューの中から選んでください(商品ID)");
 		int id = Input.$getNumber();
 		System.out.println("\n個数を入力してください");
 		int quantity = Input.$getNumber();
-		receipt.addLineItem(id, quantity);
+		order.addLineItem(id, quantity);
 	}
 
-	public static void saveReceipt(Receipt receipt) {
-		receipt.save();
+	public static void saveorder(Order order) {
+		order.save();
 	}
 
-	public static void total(Receipt receipt) throws Exception {
-		receipt.total();
+	public static void total(Order order) throws Exception {
+		order.total();
 	}
 
-	public static Receipt selectContract(Date _date) {
+	public static Order selectContract(Date _date) {
 		displayList(Contract.iterator());
 		System.out.println("\n一覧かから選んでください(契約ID)");
 		int contractId = Input.$getNumber();
-		Receipt receipt = new Receipt(_date, contractId);
-		return receipt;
+		Order order = new Order(_date, contractId);
+		return order;
 	}
 
-	public static void showTotal(Date _date, Receipt receipt) {
+	public static void showTotal(Date _date, Order order) {
 		System.out.println("注文内容");
-		Contract c = receipt.getTransaction().getContract();
+		Contract c = order.getTransaction().getContract();
 		Iterator<Transaction> targets = Transaction.getTransactions(c, _date);
 		displayList(targets);
 		System.out.println("代金");

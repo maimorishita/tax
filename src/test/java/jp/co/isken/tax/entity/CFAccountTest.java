@@ -7,7 +7,7 @@ import static org.junit.Assert.fail;
 import java.util.Iterator;
 
 import jp.co.isken.tax.entity.cashFlow.CFAccount;
-import jp.co.isken.tax.run.Initializer;
+import jp.co.isken.tax.util.Initializer;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package jp.co.isken.tax.exciseLibrary.transaction;
+package jp.co.isken.tax.transaction;
 
 public enum TransactionType {
 	SALE(1, "”Ì”„"), PURCHASE(2, "Žd“ü");

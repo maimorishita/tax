@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import jp.co.isken.tax.exciseLibrary.service.CalculationTaxAmount;
-import jp.co.isken.tax.run.Initializer;
+import jp.co.isken.tax.util.Initializer;
 import jp.co.isken.tax.util.Util;
 
 import org.junit.Before;

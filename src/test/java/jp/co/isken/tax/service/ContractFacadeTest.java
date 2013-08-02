@@ -5,7 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Date;
 
-import jp.co.isken.tax.run.Initializer;
+import jp.co.isken.tax.util.Initializer;
 import jp.co.isken.tax.util.Util;
 
 import org.junit.Before;

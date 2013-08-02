@@ -12,14 +12,14 @@ import jp.co.isken.tax.entity.transaction.CanTax;
 import jp.co.isken.tax.entity.transaction.TaxableType;
 import jp.co.isken.tax.entity.transaction.Transaction;
 import jp.co.isken.tax.entity.transaction.TransactionType;
-import jp.co.isken.tax.run.Initializer;
 import jp.co.isken.tax.util.HardCode;
+import jp.co.isken.tax.util.Initializer;
 import jp.co.isken.tax.util.Util;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class ReciptTest {
+public class OrderTest {
 
 	@Before
 	public void before() {
@@ -29,9 +29,9 @@ public class ReciptTest {
 	@Test
 	public void 注文を登録する() throws Exception {
 		Date date = Util.stringToDate("20130707000000");
-		Receipt receipt = new Receipt(date, 0);
-		receipt.addLineItem(0, 1);
-		receipt.save();
+		Order order = new Order(date, 0);
+		order.addLineItem(0, 1);
+		order.save();
 		String expected = "[0 : 20130707000000, 20130707000000, [ナックバーガー,1]]";
 		List<Transaction> trans = Transaction.getTByContract(Contract
 				.getContract(0));
@@ -42,13 +42,13 @@ public class ReciptTest {
 	@Test
 	public void 注文を登録して代金と消費税を計算する() throws Exception {
 		Date date = Util.stringToDate("20130707000000");
-		Receipt receipt = new Receipt(date, 0);
-		receipt.set(TransactionType.getEnum("販売"), CanTax.getEnum("国内"),
+		Order order = new Order(date, 0);
+		order.set(TransactionType.getEnum("販売"), CanTax.getEnum("国内"),
 				TaxableType.getEnum("社外"));
-		receipt.addLineItem(0, 1);
-		receipt.addLineItem(1, 2);
-		receipt.save();
-		receipt.total();
+		order.addLineItem(0, 1);
+		order.addLineItem(1, 2);
+		order.save();
+		order.total();
 		String line1 = "0 : 20130707000000, 20130707000000, [ナックバーガー,1]["
 				+ HardCode.DAIKIN + ",90.00][" + HardCode.EXCISE + ",4.00]";
 		String line2 = "1 : 20130707000000, 20130707000000, [ナックチーズバーガー,2]["
@@ -62,19 +62,18 @@ public class ReciptTest {
 		assertThat(cfTrans.get(1).toString(), is(line2));
 	}
 
-	
 	@Test
 	public void 国外取引の場合は消費税は0円になる() throws Exception {
 		Date date = Util.stringToDate("20130707000000");
-		Receipt receipt = new Receipt(date, 0);
-		receipt.set(TransactionType.getEnum("販売"), CanTax.getEnum("国外"),
+		Order order = new Order(date, 0);
+		order.set(TransactionType.getEnum("販売"), CanTax.getEnum("国外"),
 				TaxableType.getEnum("社外"));
-		receipt.addLineItem(0, 1);
-		receipt.addLineItem(1, 2);
-		receipt.save();
-		receipt.total();
+		order.addLineItem(0, 1);
+		order.addLineItem(1, 2);
+		order.save();
+		order.total();
 
-		List<CFTransaction> target = receipt.getTransaction().getCFTransactions();
+		List<CFTransaction> target = order.getTransaction().getCFTransactions();
 		String expected = "0 : 20130707000000, 20130707000000, [ナックバーガー,1]["
 				+ HardCode.DAIKIN + ",90.00][消費税,0.00]";
 		String expected2 = "1 : 20130707000000, 20130707000000, [ナックチーズバーガー,2]["
@@ -83,19 +82,19 @@ public class ReciptTest {
 		assertThat(target.get(0).toString(), is(expected));
 		assertThat(target.get(1).toString(), is(expected2));
 	}
-	
+
 	@Test
 	public void 仕入れ取引の場合は消費税を計算しない() throws Exception {
 		Date date = Util.stringToDate("20130707000000");
-		Receipt receipt = new Receipt(date, 0);
-		receipt.set(TransactionType.getEnum("仕入れ"), CanTax.getEnum("国内"),
+		Order order = new Order(date, 0);
+		order.set(TransactionType.getEnum("仕入れ"), CanTax.getEnum("国内"),
 				TaxableType.getEnum("社外"));
-		receipt.addLineItem(0, 1);
-		receipt.addLineItem(1, 2);
-		receipt.save();
-		receipt.total();
+		order.addLineItem(0, 1);
+		order.addLineItem(1, 2);
+		order.save();
+		order.total();
 
-		List<CFTransaction> target = receipt.getTransaction().getCFTransactions();
+		List<CFTransaction> target = order.getTransaction().getCFTransactions();
 		String expected = "0 : 20130707000000, 20130707000000, [ナックバーガー,1]["
 				+ HardCode.DAIKIN + ",90.00]";
 		String expected2 = "1 : 20130707000000, 20130707000000, [ナックチーズバーガー,2]["
@@ -104,19 +103,19 @@ public class ReciptTest {
 		assertThat(target.get(0).toString(), is(expected));
 		assertThat(target.get(1).toString(), is(expected2));
 	}
-	
+
 	@Test
 	public void 社内取引の場合は消費税を計算しない() throws Exception {
 		Date date = Util.stringToDate("20130707000000");
-		Receipt receipt = new Receipt(date, 0);
-		receipt.set(TransactionType.getEnum("販売"), CanTax.getEnum("国内"),
+		Order order = new Order(date, 0);
+		order.set(TransactionType.getEnum("販売"), CanTax.getEnum("国内"),
 				TaxableType.getEnum("社内"));
-		receipt.addLineItem(0, 1);
-		receipt.addLineItem(1, 2);
-		receipt.save();
-		receipt.total();
+		order.addLineItem(0, 1);
+		order.addLineItem(1, 2);
+		order.save();
+		order.total();
 
-		List<CFTransaction> target = receipt.getTransaction().getCFTransactions();
+		List<CFTransaction> target = order.getTransaction().getCFTransactions();
 		String expected = "0 : 20130707000000, 20130707000000, [ナックバーガー,1]["
 				+ HardCode.DAIKIN + ",90.00]";
 		String expected2 = "1 : 20130707000000, 20130707000000, [ナックチーズバーガー,2]["

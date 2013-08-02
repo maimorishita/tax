@@ -14,12 +14,12 @@ import jp.co.isken.tax.entity.transaction.TaxableType;
 import jp.co.isken.tax.entity.transaction.Transaction;
 import jp.co.isken.tax.entity.transaction.TransactionType;
 
-public class Receipt {
+public class Order {
 	
 	private Transaction t ;
 	private List<Entry> entryList = new ArrayList<Entry>();
 
-	public Receipt(Date _date, int contractId) {
+	public Order(Date _date, int contractId) {
 		t = new Transaction(Contract.getContract(contractId), _date, _date);
 	}
 	

@@ -18,10 +18,12 @@ public class CashFlow {
 
 	public static void createCashFlowByEntries(List<Entry> entries)
 			throws Exception {
+		BigDecimal subtotal = new BigDecimal("0.00");
 		for (Entry each : entries) {
 			CFTransaction cfTransaction = createCFTransaction(each);
 			CFEntry cfEntry = createEntries(cfTransaction, each);
 			createExciseEntry(cfEntry);
+			subtotal = subtotal.add(cfEntry.getAmmount());
 			cfTransaction.save();
 		}
 	}
@@ -35,9 +37,8 @@ public class CashFlow {
 		return cfAccount;
 	}
 
-	private static CFAccount getExciseRateAccount(CFTransaction cfTransaction) {
-		CFAccount cfAccount = CFAccount.getAccount(HardCode.EXCISE,
-				cfTransaction.getCustomer());
+	private static CFAccount getExciseRateAccount(Party customer) {
+		CFAccount cfAccount = CFAccount.getAccount(HardCode.EXCISE, customer);
 		return cfAccount;
 	}
 
@@ -57,7 +58,7 @@ public class CashFlow {
 			return;
 		}
 		String itemName = getItemName(taxableEntry);
-		CFAccount account = getExciseRateAccount(taxableEntry.getTransaction());
+		CFAccount account = getExciseRateAccount(taxableEntry.getTransaction().getCustomer());
 		BigDecimal taxAmount = getExciseAmount(taxableEntry, itemName, t);
 		new CFEntry(taxableEntry.getTransaction(), account, taxAmount);
 	}
